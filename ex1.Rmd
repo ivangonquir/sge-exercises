@@ -1,0 +1,6 @@
+---
+title: "Exercise 1"
+author: "Ivan Quirante González"
+date: "2026-09-17"
+output: html_document
+---
