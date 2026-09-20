@@ -4,3 +4,65 @@ author: "Ivan Quirante González"
 date: "2026-09-17"
 output: html_document
 ---
+
+# SNP dataset
+
+### 0. Loading the data
+
+```{r}
+setwd("G:/My Drive/University/Masters/MDS/q3/BSG/sge-exercises")
+
+raw <- read.table("TSICHR22RAW.raw", header = TRUE)
+X   <- raw[, 7:ncol(raw)]                 # only the genetic information
+```
+
+Each cell corresponds to the number of B alleles, 0=AA, 1=AB, 2 = BB.
+
+### 1. How many variants are there in this database? What percentage of the data is missing?
+
+```{r}
+ncol(X)
+100*mean(is.na(X))
+```
+
+This database has 20,649 variants an a \~0.20% of missing data.
+
+### 2. Calculate the percentage of monomorphic variants. Exclude all monomorphics from the database for all posterior computations of the practical. How many variants do remain in your database?
+
+A **monomorphic** variant is one where everybody in the sample carries the same allele. There's no variation at that position, so it's not really a polymorphism in this dataset.
+
+```{r}
+nB   <- colSums(X, na.rm = TRUE)          # copies of allele B
+nTot <- 2 * colSums(!is.na(X))            # total alleles typed
+mono <- nB == 0 | nB == nTot              # only one allele present
+sum(mono)
+100 * mean(mono)                          # % monomorphic
+X <- X[, !mono]                           # remove them
+ncol(X)                                   # variants remaining
+```
+
+We can see that an 11.46% of the variants are monomorphic. If we remove them we end up with 18283 variants.
+
+### 3. Report the genotype counts and the minor allele count of polymorphism `rs8138488_C`, and calculate the MAF of this variant.
+
+### 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern? 
+
+*Uniform distribution at [0, 0.5]. The range from 0 to 0.5 can be easily explained due to the fact that a frequency higher than 0.5 would indicate this is not the minor allele.*
+
+### 5. Calculate the observed heterozygosity $H_0$ , and make a histogram of it. What is, theoretically, the range of variation of this statistic?
+
+### 6. Compute for each marker its expected heterozygosity ($H_e$), where the expected heterozygosity for a bi-allelic marker is defined as $1 − \sum_{i=1}^kp_i^2$ , where $p_i^2$ is the frequency of the $i$th allele. Make a histogram of the expected heterozygosity. What is, theoretically, the range of variation of this statistic? What is the average of $H_e$ for this database?
+
+# STR dataset
+
+### 1. How many individuals and how many STRs contains the database?
+
+### 2. Write a function that determines the number of alleles for a STR. Determine the number of alleles for each STR in the database. Compute basic descriptive statistics of the number of alleles (mean, standard deviation, median, minimum, maximum).
+
+### 3. Make a table with the number of STRs for a given number of alleles and present a barplot of the number STRs in each category. What is the most common number of alleles for an STR?
+
+### 4. Compute the expected heterozygosity for each STR. Make a histogram of the expected heterozygosity over all STRS. Compute the average expected heterozygosity over all STRs.
+
+### 5. Calculate also the observed heterozygosity for each STR. Plot observed against expected heterozygosity, using all STRs. What do you observe?
+
+### 6. Compare, overall, the results you obtained for the SNP database with those you obtained for the STR database. What differences do you observe between these two types of genetic markers?
