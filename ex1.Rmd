@@ -45,13 +45,63 @@ We can see that an 11.46% of the variants are monomorphic. If we remove them we 
 
 ### 3. Report the genotype counts and the minor allele count of polymorphism `rs8138488_C`, and calculate the MAF of this variant.
 
+```{r}
+g  <- X[, "rs8138488_C"]
+gc <- table(factor(g, levels = 0:2, labels = c("AA", "AB", "BB")))
+gc                                        # genotype counts
+count_A <- 2 * gc[["AA"]] + gc[["AB"]]
+count_B <- 2 * gc[["BB"]] + gc[["AB"]]        # B = the C allele
+min(count_A, count_B)                   # minor allele count
+min(count_A, count_B) / (count_A + count_B)   # MAF
+
+```
+
+For polymorphism `rs8138488_c`, we have 41 individuals with genotype AA, 47 with genotype AB and 14 with BB.
+
+The minor allele is C, which is the counted one in the dataset. It has a MAF of 0.368.
+
 ### 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern? 
 
 *Uniform distribution at [0, 0.5]. The range from 0 to 0.5 can be easily explained due to the fact that a frequency higher than 0.5 would indicate this is not the minor allele.*
 
+```{r}
+p   <- colSums(X, na.rm = TRUE) / (2 * colSums(!is.na(X)))
+maf <- pmin(p, 1 - p)
+hist(maf, breaks = 50, col = "steelblue",
+     main = "Minor allele frequency of SNPs (chr22, TSI)",
+     xlab = "Minor allele frequency", ylab = "Number of SNPs")
+100 * mean(maf < 0.05)                    # % MAF < 0.05
+100 * mean(maf < 0.01) 
+```
+
+No, we see instead a shape more similar to $\frac{1}{x}$ rather than a uniform distribution. This shape in population genetics is called the **site / allele frequency spectrum**, and it is characterized by a big spike at the lowest frequencies followed by a decay as we move right.
+
+A 14.23% of markers have a MAF below 0.05, and a 4.73% are below 0.01. In this sample of 102 individuals (204 alleles), this means that 14.23% of variants have at most $0.05 \times 204 \approx 10$ copies of the minor allele, and 4.73% of the variants have at most $0.01 \times 204 \approx 2$ (singletons and doubletons) copies of the minor allele.
+
 ### 5. Calculate the observed heterozygosity $H_0$ , and make a histogram of it. What is, theoretically, the range of variation of this statistic?
 
-### 6. Compute for each marker its expected heterozygosity ($H_e$), where the expected heterozygosity for a bi-allelic marker is defined as $1 − \sum_{i=1}^kp_i^2$ , where $p_i^2$ is the frequency of the $i$th allele. Make a histogram of the expected heterozygosity. What is, theoretically, the range of variation of this statistic? What is the average of $H_e$ for this database?
+```{r}
+Ho <- colMeans(X == 1, na.rm = TRUE)
+hist(Ho, breaks = 50, col = "darkorange",
+     main = "Observed heterozygosity of SNPs",
+     xlab = "Observed heterozygosity (Ho)", ylab = "Number of SNPs")
+range(Ho)
+```
+
+In this dataset, $H_0 \in [0, 0.68]$ , but in theory $H_0 \in [0,1]$.
+
+### 6. Compute for each marker its expected heterozygosity ($H_e$), where the expected heterozygosity for a bi-allelic marker is defined as $1 − \sum_{i=1}^kp_i^2$ , where $p_i^2$ is the frequency of the $i$-th allele. Make a histogram of the expected heterozygosity. What is, theoretically, the range of variation of this statistic? What is the average of $H_e$ for this database?
+
+```{r}
+He <- 1 - (p^2 + (1 - p)^2)
+hist(He, breaks = 50, col = "seagreen",
+     main = "Expected heterozygosity of SNPs",
+     xlab = "Expected heterozygosity (He)", ylab = "Number of SNPs")
+range(He)
+mean(He)
+```
+
+In this dataset, $H_e \in [0.01, 0.5]$, but in theory $H_e \in [0, 0.5]$.
 
 # STR dataset
 
