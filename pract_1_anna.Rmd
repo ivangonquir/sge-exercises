@@ -1,11 +1,12 @@
 ---
-title: "Statistical Genetics - practical 1"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
-editor_options:
-  chunk_output_type: console
+title: "Practical 3: SNP and STR Analysis"
+subtitle: "Bioinformatics and Statistical Genetics (BSG)"
+author:
+  - "Ivan Quirante"
+  - "Humbert Teruel"
+  - "Anna Maria Zakreva"
+date: "`r Sys.Date()`"
+output: pdf_document
 ---
 install.packages("data.table")
 
@@ -43,7 +44,7 @@ n_variants <- ncol(geno_dt)
 cat("Number of variants:", n_variants, "\n")
 
 pct_missing <- mean(is.na(geno_dt)) * 100
-cat("Percentage missing:", round(pct_missing, 2), "%\n")
+cat("Percentage missing:", round(pct_missing, 4), "%\n")
 ```
 
 ## 2. Calculate the percentage of monomorphic variants. Exclude all monomorphics from the database for all posterior computations of the practical. How many variants do remain in your database?
@@ -58,8 +59,8 @@ cat("Monomorphic %:", mean(monomorphic) * 100, "\n")
 geno_poly <- geno_dt[, !monomorphic, with = FALSE]
 
 n_poly <- ncol(geno_poly)
-cat("Remaining variants:", n_poly, "\n")
-cat("Removed variants:", ncol(geno_dt)-n_poly, "\n")
+cat("Remaining variants:", n_poly, "\n", "Removed variants:", ncol(geno_dt)-n_poly, "\n", "These polymorphic variants were used for all subsequent analyses.")
+
 ```
 
 ## 3. Report the genotype counts and the minor allele count of polymorphism rs8138488 C, and calculate the MAF of this variant.
@@ -85,17 +86,20 @@ freq_alt <- n_alt / n_total
 # MAF
 MAF <- min(freq_ref, freq_alt)
 
-cat("Genotype counts:\n")
-cat("  0 (AA):", g0, "\n")
-cat("  1 (AB):", g1, "\n")
-cat("  2 (BB):", g2, "\n")
-cat("Allele counts:\n")
-cat("  Reference:", n_ref, "\n")
-cat("  Alternate:", n_alt, "\n")
-cat("Allele frequencies:\n")
-cat("  Reference:", round(freq_ref, 4), "\n")
-cat("  Alternate:", round(freq_alt, 4), "\n")
-cat("MAF:", round(MAF, 4), "\n")
+cat(paste(
+  "Genotype counts:",
+  paste0("  0 (AA): ", g0),
+  paste0("  1 (AB): ", g1),
+  paste0("  2 (BB): ", g2),
+  "Allele counts:",
+  paste0("  Reference: ", n_ref),
+  paste0("  Alternate: ", n_alt),
+  "Allele frequencies:",
+  paste0("  Reference: ", round(freq_ref, 4)),
+  paste0("  Alternate: ", round(freq_alt, 4)),
+  paste0("MAF: ", round(MAF, 4)),
+  sep = "\n"
+))
 ```
 
 ## 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern? Uniform distribution at [0, 0.5]. The range from 0 to 0.5 can be easily explained due to the fact that a frequency higher than 0.5 would indicate this is not the minor allele.
@@ -173,8 +177,13 @@ hist(h0,
 ```
 Answer:
 
-The theoretical range of this statistic is [0, 1], since it is possible that all individuals are Homozygous. In practice, we are seeing values much below 1 because it is rare for every individual in a sample to be heterozygous. 
+The observed heterozygosity ($H_O$) is the proportion of individuals with a heterozygous genotype. Since it is a proportion, its theoretical range is **0 to 1**, where 0 means that no individuals are heterozygous and 1 means that all individuals are heterozygous. 
 
+So:
+
+$$0 \leq H_O \leq 1$$
+
+ In practice, we are seeing values much below 1 because it is rare for every individual in a sample to be heterozygous. 
 
 ## Compute for each marker its expected heterozygosity (He). Make a histogram of the expected heterozygosity. What is, theoretically, the range of variation of this statistic? What is the average of He for this database?
 
@@ -209,14 +218,27 @@ hist(he,
      ylab = "Number of variants")
 
 
-cat("Min He:", min(he, na.rm = TRUE), "\n")
-cat("Max He:", max(he, na.rm = TRUE), "\n")
-
-
-cat("Mean He:", mean(he, na.rm = TRUE), "\n")
+cat(paste(
+  paste0("Min He: ", min(he, na.rm = TRUE)),
+  paste0("Max He: ", max(he, na.rm = TRUE)),
+  paste0("Mean He: ", mean(he, na.rm = TRUE)),
+  sep = "\n"
+))
 ```
 Answers:
-The theoretical range of He is [0, 0.5], with the maximum occurring when both alleles are equally frequent. In this database, the average He is 0.3116.
+For a bi-allelic marker, the maximum occurs when both alleles have frequency 0.5:
+
+$$H_e = 1 - (0.5^2 + 0.5^2) = 0.5$$
+
+The minimum occurs when one allele has frequency 1 and the other has frequency 0:
+
+$$H_e = 1 - (1^2 + 0^2) = 0$$
+
+Therefore:
+
+$$0 \leq H_e \leq 0.5$$
+
+The maximum occurres when both alleles are equally frequent. In this database, the average He is 0.3116.
 
 # STR dataset
 
@@ -255,13 +277,17 @@ n_alleles <- sapply(str_names, function(s) {
 })
 
 
-cat("Number of alleles per STR:\n")
-print(n_alleles)
-cat("\nMean:", round(mean(n_alleles), 2), "\n")
-cat("SD:", round(sd(n_alleles), 2), "\n")
-cat("Median:", median(n_alleles), "\n")
-cat("Min:", min(n_alleles), "\n")
-cat("Max:", max(n_alleles), "\n")
+cat(paste(
+  "Number of alleles per STR:",
+  paste0(names(n_alleles), ": ", n_alleles, collapse = "\n"),
+  "",
+  paste0("Mean: ", round(mean(n_alleles), 2)),
+  paste0("SD: ", round(sd(n_alleles), 2)),
+  paste0("Median: ", median(n_alleles)),
+  paste0("Min: ", min(n_alleles)),
+  paste0("Max: ", max(n_alleles)),
+  sep = "\n"
+))
 ```
 
 
@@ -335,8 +361,16 @@ Most points fall near the diagonal.
 
 ## 6. Compare, overall, the results you obtained for the SNP database with those you obtained for the STR database. What differences do you observe between these two types of genetic markers?
 
-Answer:
 
+```{r}
+boxplot(list(SNPs = he, STRs = he_str),
+        col = c("seagreen", "slateblue"),
+        main = "Expected heterozygosity: SNPs vs STRs",
+        xlab = "Marker type",
+        ylab = "Expected heterozygosity (He)")
+```
+
+Answer:
 The SNPs has more than 18000 markers, and show a mean expected heterozygosity of only 0.31 and a mix of rare and common variants. The STR database, by contrast, contains just 29 markers but each one is highly multi-allelic. This allows STRs to reach much higher heterozygosity levels, with a mean expected heterozygosity of 0.79.
 
 Both databases show observed heterozygosity very close to expected, with mean values near zero, indicating that both are approximately in equilibrium.
