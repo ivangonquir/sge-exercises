@@ -1,5 +1,5 @@
 ---
-title: "Practical 3: SNP and STR Analysis"
+title: "Practical 1: SNP and STR Analysis"
 subtitle: "Bioinformatics and Statistical Genetics (BSG)"
 author:
   - "Ivan Quirante"
@@ -143,14 +143,11 @@ cat("Percentage with MAF < 0.01:", round(pct_below_001, 2), "%\n")
 
 ```
 Answers:
-Following visual analysis (L-shape of the data) and results of the Kolmogorov-Smirnov test against uniform, we observe that the distribution isn't uniform. What this tells us is that
-in this population there are a lot of monomorphic variants (only one allele). 
+A Kolmogorov-Smirnov test against a uniform distribution rejects uniformity (p < 0.001), consistent with the visual L-shape. It is true that this test should be interpreted with caution because MAF values are discrete and the sample size is large, so even small deviations from uniformity could be statistically significant.
 
-14.23 % of the variants have MAF lower than 0.05 and  4.73 % MAF lower than 0.01. These 
-numbers indicate that there are around 4-14% of variants that happen very rarely
+14.23 % of the variants have MAF lower than 0.05 and  4.73 % MAF lower than 0.01. What this tells us is that in this population rare variants are over-represented, and that the very rare end is actually more densely populated. Nevertheless, most markers (about 86%) are common, with $MAF \geq 0.05$. 
 
-This means that a fraction of the variants in this population are rare variants. The fact that the percentage drops sharply when the threshold is lowered (from 14.23% to 4.73%) indicates that very rare variants are much less common than moderately rare ones. It is most likely for a variant to be common.
-
+Upon reflection and consulting possible explanations, we learn that this pattern is expected from population genetics. Every variant arises as a single mutation and so starts at the lowest possible frequency. Then, most are lost through genetic drift before becoming common, and human population growth adds a further excess of young, rare variants.
 
 ## 5. Calculate the observed heterozygosity H0, and make a histogram of it. What is, theoretically, the range of variation of this statistic?
 
