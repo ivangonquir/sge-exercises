@@ -1,0 +1,344 @@
+---
+title: "Statistical Genetics - practical 1"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+install.packages("data.table")
+
+for mac do this first:
+install.packages("Rsolnp", type = "binary")
+##
+
+install.packages("HardyWeinberg")
+
+```{r}
+
+library(data.table)
+library(HardyWeinberg)
+```
+
+# SNP dataset
+
+## Loading dataset
+
+```{r}
+df <- read.table("TSICHR22RAW.raw", header = TRUE)
+
+genetic_info <- df[, 7:ncol(df)]
+
+geno_dt <- as.data.table(genetic_info)
+
+```
+
+
+## 1. How many variants are there in this database? What percentage of the data is missing?
+
+```{r}
+n_variants <- ncol(geno_dt)
+
+cat("Number of variants:", n_variants, "\n")
+
+pct_missing <- mean(is.na(geno_dt)) * 100
+cat("Percentage missing:", round(pct_missing, 2), "%\n")
+```
+
+## 2. Calculate the percentage of monomorphic variants. Exclude all monomorphics from the database for all posterior computations of the practical. How many variants do remain in your database?
+
+Monomorphic means no variation, so we look for columns with same value all accross.
+
+```{r}
+n_unique <- geno_dt[, sapply(.SD, function(x) uniqueN(na.omit(x)))]
+monomorphic <- n_unique <= 1
+cat("Monomorphic %:", mean(monomorphic) * 100, "\n")
+
+geno_poly <- geno_dt[, !monomorphic, with = FALSE]
+
+n_poly <- ncol(geno_poly)
+cat("Remaining variants:", n_poly, "\n")
+cat("Removed variants:", ncol(geno_dt)-n_poly, "\n")
+```
+
+## 3. Report the genotype counts and the minor allele count of polymorphism rs8138488 C, and calculate the MAF of this variant.
+
+```{r}
+geno_counts <- geno_poly[, .N, by = rs8138488_C]
+print(geno_counts)
+
+# genotype counts
+g0 <- geno_poly[rs8138488_C == 0, .N]
+g1 <- geno_poly[rs8138488_C == 1, .N]
+g2 <- geno_poly[rs8138488_C == 2, .N]
+
+# allel counts
+n_ref <- 2 * g0 + g1
+n_alt <- 2 * g2 + g1
+n_total <- n_ref + n_alt
+
+# allele frequencies
+freq_ref <- n_ref / n_total
+freq_alt <- n_alt / n_total
+
+# MAF
+MAF <- min(freq_ref, freq_alt)
+
+cat("Genotype counts:\n")
+cat("  0 (AA):", g0, "\n")
+cat("  1 (AB):", g1, "\n")
+cat("  2 (BB):", g2, "\n")
+cat("Allele counts:\n")
+cat("  Reference:", n_ref, "\n")
+cat("  Alternate:", n_alt, "\n")
+cat("Allele frequencies:\n")
+cat("  Reference:", round(freq_ref, 4), "\n")
+cat("  Alternate:", round(freq_alt, 4), "\n")
+cat("MAF:", round(MAF, 4), "\n")
+```
+
+## 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern? Uniform distribution at [0, 0.5]. The range from 0 to 0.5 can be easily explained due to the fact that a frequency higher than 0.5 would indicate this is not the minor allele.
+
+```{r}
+# Function to compute MAF for one column
+compute_maf <- function(x) {
+  g0 <- sum(x == 0, na.rm = TRUE)
+  g1 <- sum(x == 1, na.rm = TRUE)
+  g2 <- sum(x == 2, na.rm = TRUE)
+  n_ref <- 2 * g0 + g1
+  n_alt <- 2 * g2 + g1
+  n_total <- n_ref + n_alt
+  if (n_total == 0) return(NA)
+  min(n_ref, n_alt) / n_total
+}
+
+# Apply to all columns
+maf <- sapply(geno_poly, compute_maf)
+
+
+hist(maf,
+     breaks = 100,
+     col = "steelblue",
+     main = "Distribution of Minor Allele Frequencies",
+     xlab = "MAF",
+     ylab = "Number of variants")
+
+
+# We can visually assess, but also Kolmogorov-Smirnov test against uniform too 
+ks.test(maf, "punif", min = 0, max = 0.5)
+
+
+# Below 0.05
+pct_below_005 <- mean(maf < 0.05, na.rm = TRUE) * 100
+cat("Percentage with MAF < 0.05:", round(pct_below_005, 2), "%\n")
+
+# Below 0.01
+pct_below_001 <- mean(maf < 0.01, na.rm = TRUE) * 100
+cat("Percentage with MAF < 0.01:", round(pct_below_001, 2), "%\n")
+
+```
+Answers:
+Following visual analysis (L-shape of the data) and results of the Kolmogorov-Smirnov test against uniform, we observe that the distribution isn't uniform. What this tells us is that
+in this population there are a lot of monomorphic variants (only one allele). 
+
+14.23 % of the variants have MAF lower than 0.05 and  4.73 % MAF lower than 0.01. These 
+numbers indicate that there are around 4-14% of variants that happen very rarely
+
+This means that a fraction of the variants in this population are rare variants. The fact that the percentage drops sharply when the threshold is lowered (from 14.23% to 4.73%) indicates that very rare variants are much less common than moderately rare ones. It is most likely for a variant to be common.
+
+
+## 5. Calculate the observed heterozygosity H0, and make a histogram of it. What is, theoretically, the range of variation of this statistic?
+
+At a given SNP, we have two chromosome copies of each parent. If those two copies have different alleles, it is heterozygous. So code 1 = heterozygous.
+
+```{r}
+# Function to compute H0 for one column
+compute_h0 <- function(x) {
+  x <- x[!is.na(x)]              
+  if (length(x) == 0) return(NA)
+  mean(x == 1)                   
+}
+
+h0 <- geno_poly[, lapply(.SD, function(x) mean(x == 1, na.rm = TRUE))]
+h0 <- unlist(h0)
+
+hist(h0,
+     breaks = 50,
+     col = "steelblue",
+     main = "Distribution of Observed Heterozygosity (H0)",
+     xlab = "H0",
+     ylab = "Number of variants")
+
+```
+Answer:
+
+The theoretical range of this statistic is [0, 1], since it is possible that all individuals are Homozygous. In practice, we are seeing values much below 1 because it is rare for every individual in a sample to be heterozygous. 
+
+
+## Compute for each marker its expected heterozygosity (He). Make a histogram of the expected heterozygosity. What is, theoretically, the range of variation of this statistic? What is the average of He for this database?
+
+```{r}
+# Function to compute He for one variant
+compute_he <- function(x) {
+  x <- x[!is.na(x)]
+  g0 <- sum(x == 0)
+  g1 <- sum(x == 1)
+  g2 <- sum(x == 2)
+  
+  n_ref <- 2 * g0 + g1
+  n_alt <- 2 * g2 + g1
+  n_total <- n_ref + n_alt
+  
+  if (n_total == 0) return(NA)
+  
+  p_ref <- n_ref / n_total
+  p_alt <- n_alt / n_total
+  
+  1 - (p_ref^2 + p_alt^2)
+}
+
+he <- geno_poly[, lapply(.SD, compute_he)]
+he <- unlist(he)
+
+hist(he,
+     breaks = 50,
+     col = "steelblue",
+     main = "Expected Heterozygosity (He)",
+     xlab = "He",
+     ylab = "Number of variants")
+
+
+cat("Min He:", min(he, na.rm = TRUE), "\n")
+cat("Max He:", max(he, na.rm = TRUE), "\n")
+
+
+cat("Mean He:", mean(he, na.rm = TRUE), "\n")
+```
+Answers:
+The theoretical range of He is [0, 0.5], with the maximum occurring when both alleles are equally frequent. In this database, the average He is 0.3116.
+
+# STR dataset
+
+
+
+```{r}
+data(NistSTRs)
+
+# Save to a data frame
+str_df <- as.data.frame(NistSTRs)
+
+```
+
+## 1. How many individuals and how many STRs contains the database?
+
+```{r}
+cat("Individuals:", nrow(str_df), "\n")
+
+cat("STRs:", ncol(str_df) / 2, "\n")
+
+```
+
+## 2. Write a function that determines the number of alleles for a STR. Determine the number of alleles for each STR in the database. Compute basic descriptive statistics of the number of alleles (mean, standard deviation, median, minimum, maximum).
+
+```{r}
+count_alleles <- function(allele1, allele2) {
+  all_alleles <- c(allele1, allele2)
+  all_alleles <- all_alleles[!is.na(all_alleles)]
+  length(unique(all_alleles))
+}
+
+str_names <- unique(sub("-1$|-2$", "", colnames(str_df)))
+
+n_alleles <- sapply(str_names, function(s) {
+  count_alleles(str_df[[paste0(s, "-1")]], str_df[[paste0(s, "-2")]])
+})
+
+
+cat("Number of alleles per STR:\n")
+print(n_alleles)
+cat("\nMean:", round(mean(n_alleles), 2), "\n")
+cat("SD:", round(sd(n_alleles), 2), "\n")
+cat("Median:", median(n_alleles), "\n")
+cat("Min:", min(n_alleles), "\n")
+cat("Max:", max(n_alleles), "\n")
+```
+
+
+## 3. Make a table with the number of STRs for a given number of alleles and present a barplot of the number STRs in each category. What is the most common number of alleles for an STR?
+```{r}
+
+allele_table <- table(n_alleles)
+print(allele_table)
+
+barplot(allele_table,
+        main = "Number of STRs by Number of Alleles",
+        xlab = "Number of alleles",
+        ylab = "Number of STRs",
+        col = "steelblue")
+
+most_common <- as.numeric(names(allele_table)[which.max(allele_table)])
+cat("Most common number of alleles:", most_common, "\n")
+```
+
+
+## 4. Compute the expected heterozygosity for each STR. Make a histogram of the expected heterozygosity over all STRS. Compute the average expected heterozygosity over all STRs.
+```{r}
+compute_he_str <- function(allele1, allele2) {
+  all_alleles <- c(allele1, allele2)
+  all_alleles <- all_alleles[!is.na(all_alleles)]
+  freqs <- table(all_alleles) / length(all_alleles)
+  1 - sum(freqs^2)
+}
+
+str_names <- unique(sub("-1$|-2$", "", colnames(str_df)))
+
+he_str <- sapply(str_names, function(s) {
+  compute_he_str(str_df[[paste0(s, "-1")]], str_df[[paste0(s, "-2")]])
+})
+
+hist(he_str, breaks = 15, col = "steelblue",
+     main = "Expected Heterozygosity (He) per STR",
+     xlab = "He", ylab = "Number of STRs")
+
+cat("Average He:", round(mean(he_str), 4), "\n")
+```
+
+
+## 5. Calculate also the observed heterozygosity for each STR. Plot observed against expected heterozygosity, using all STRs. What do you observe?
+```{r}
+
+compute_h0_str <- function(allele1, allele2) {
+  valid <- !is.na(allele1) & !is.na(allele2)
+  mean(allele1[valid] != allele2[valid])
+}
+
+
+h0_str <- sapply(str_names, function(s) {
+  compute_h0_str(str_df[[paste0(s, "-1")]], str_df[[paste0(s, "-2")]])
+})
+
+
+plot(he_str, h0_str,
+     xlab = "Expected heterozygosity (He)",
+     ylab = "Observed heterozygosity (H0)",
+     main = "H0 vs He per STR",
+     pch = 19, col = "steelblue")
+abline(0, 1, col = "red", lty = 2)
+
+
+fis <- (he_str - h0_str) / he_str
+cat("Mean Fis:", round(mean(fis, na.rm = TRUE), 4), "\n")
+```
+Answer:
+Most points fall near the diagonal. 
+
+## 6. Compare, overall, the results you obtained for the SNP database with those you obtained for the STR database. What differences do you observe between these two types of genetic markers?
+
+Answer:
+
+The SNPs has more than 18000 markers, and show a mean expected heterozygosity of only 0.31 and a mix of rare and common variants. The STR database, by contrast, contains just 29 markers but each one is highly multi-allelic. This allows STRs to reach much higher heterozygosity levels, with a mean expected heterozygosity of 0.79.
+
+Both databases show observed heterozygosity very close to expected, with mean values near zero, indicating that both are approximately in equilibrium.
+However, the variability of heterozygosity differs in each: SNPs show a std of ~0.16 and STRs ~ 0.07. This indicates that SNPs mutate slowly and accumulate rare variants, while STRs mutate rapidly and maintain many alleles at similar frequencies.
+
