@@ -60,7 +60,7 @@ For polymorphism `rs8138488_c`, we have 41 individuals with genotype AA, 47 with
 
 The minor allele is C, which is the counted one in the dataset. It has a MAF of 0.368.
 
-### 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern? 
+### 4. Compute the minor allele frequencies (MAF) for all markers, and make a histogram of it. Does the MAF follow a uniform distribution? What percentage of the markers have a MAF below 0.05? And below 0.01? Can you explain the observed pattern?
 
 *Uniform distribution at [0, 0.5]. The range from 0 to 0.5 can be easily explained due to the fact that a frequency higher than 0.5 would indicate this is not the minor allele.*
 
@@ -107,12 +107,103 @@ In this dataset, $H_e \in [0.01, 0.5]$, but in theory $H_e \in [0, 0.5]$.
 
 ### 1. How many individuals and how many STRs contains the database?
 
+```{r}
+library(HardyWeinberg)
+data(NistSTRs)
+
+nrow(NistSTRs)                            # individuals
+ncol(NistSTRs) / 2                        # STRs (2 columns per STR)
+
+
+```
+
+There are 361 individuals and 29 STRs.
+
 ### 2. Write a function that determines the number of alleles for a STR. Determine the number of alleles for each STR in the database. Compute basic descriptive statistics of the number of alleles (mean, standard deviation, median, minimum, maximum).
+
+```{r}
+K <- ncol(NistSTRs) / 2
+str_names <- colnames(NistSTRs)[seq(1, ncol(NistSTRs), by = 2)]
+
+# alleles of STR k as text, so 14.3 is different from 14 and 15
+alleles_of <- function(k) {
+  a <- c(as.character(NistSTRs[, 2*k - 1]), as.character(NistSTRs[, 2*k]))
+  a[!is.na(a)]
+}
+n_alleles <- function(k) length(unique(alleles_of(k)))
+nA <- sapply(1:K, n_alleles)
+names(nA) <- str_names
+nA
+mean(nA); sd(nA); median(nA); min(nA); max(nA)
+```
+
+The statistics of the number of alleles for each STR are presented below:
+
+- **Mean**: 11.86
+
+- **Standard Deviation**: 6.23
+
+- **Median**: 10
+
+- **Minimum**: 6
+
+- **Maximum**: 39
 
 ### 3. Make a table with the number of STRs for a given number of alleles and present a barplot of the number STRs in each category. What is the most common number of alleles for an STR?
 
+```{r}
+tab <- table(nA)
+tab
+barplot(tab, col = "slateblue",
+        main = "Number of STRs by number of alleles",
+        xlab = "Number of alleles", ylab = "Number of STRs")
+names(tab)[tab == max(tab)]               # most common number of alleles
+```
+
+The most common number of alleles for an STR is 8.
+
 ### 4. Compute the expected heterozygosity for each STR. Make a histogram of the expected heterozygosity over all STRS. Compute the average expected heterozygosity over all STRs.
+
+```{r}
+He_str <- sapply(1:K, function(k) {
+  f <- table(alleles_of(k)) / length(alleles_of(k))
+  1 - sum(f^2)
+})
+names(He_str) <- str_names
+hist(He_str, col = "seagreen",
+     main = "Expected heterozygosity of STRs",
+     xlab = "Expected heterozygosity (He)", ylab = "Number of STRs")
+mean(He_str)
+```
+
+The average $H_e$ is 0.79.
 
 ### 5. Calculate also the observed heterozygosity for each STR. Plot observed against expected heterozygosity, using all STRs. What do you observe?
 
+```{r}
+Ho_str <- sapply(1:K, function(k) {
+  a1 <- as.character(NistSTRs[, 2*k - 1])
+  a2 <- as.character(NistSTRs[, 2*k])
+  mean(a1 != a2, na.rm = TRUE)
+})
+names(Ho_str) <- str_names
+plot(He_str, Ho_str, pch = 19,
+     xlim = range(c(He_str, Ho_str)), ylim = range(c(He_str, Ho_str)),
+     main = "Observed vs expected heterozygosity (STRs)",
+     xlab = "Expected heterozygosity (He)", ylab = "Observed heterozygosity (Ho)")
+abline(0, 1, lty = 2, col = "red")        # line Ho = He
+cor(Ho_str, He_str)
+```
+
+$H_o$ and $H_e$ are positively correlated, with a correlation coefficient of 0.97.
+
 ### 6. Compare, overall, the results you obtained for the SNP database with those you obtained for the STR database. What differences do you observe between these two types of genetic markers?
+
+```{r}
+c(SNP_mean_He = mean(He), STR_mean_He = mean(He_str))
+boxplot(list(SNPs = He, STRs = He_str), col = c("seagreen", "slateblue"),
+        main = "Expected heterozygosity: SNPs vs STRs",
+        xlab = "Marker type", ylab = "Expected heterozygosity (He)")
+```
+
+We can see that the }$\bar{H}_e^{\text{STRs}}>\bar{H}_e^{\text{SNPs}}$.
