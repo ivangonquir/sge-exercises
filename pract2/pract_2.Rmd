@@ -1,0 +1,202 @@
+---
+title: "Practical 2: Hardy Weinberg Equilibrium"
+subtitle: "Bioinformatics and Statistical Genetics (BSG)"
+author:
+  - "Ivan Quirante"
+  - "Humbert Teruel"
+  - "Anna Maria Zakreva"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+install.packages("HardyWeinberg")
+
+```{r echo=FALSE}
+library(data.table)
+library(HardyWeinberg)
+library(genetics)
+```
+
+## Loading dataset
+
+```{r}
+df <- fread("TSIChr22v4.raw")
+geno_dt <- as.data.table(df[, 7:ncol(df)])
+```
+
+## 1. How many variants are there in this database? What percentage of the data is missing?
+```{r}
+n_variants <- ncol(geno_dt)
+
+cat("Number of variants:", n_variants, "\n")
+
+pct_missing <- mean(is.na(geno_dt)) * 100
+cat("Percentage missing:", round(pct_missing, 4), "%\n")
+
+```
+
+## 2. Calculate the percentage of monomorphic variants. Exclude all monomorphics from the database for all posterior computations of the practical. How many variants do remain in your database?
+```{r}
+
+# Convert to matrix (faster than other options)
+m <- as.matrix(geno_dt)
+
+# For each column, count non-NA values equal to 0, 1, 2
+has0 <- colSums(m == 0, na.rm = TRUE) > 0
+has1 <- colSums(m == 1, na.rm = TRUE) > 0
+has2 <- colSums(m == 2, na.rm = TRUE) > 0
+
+# Monomorphic = only one of the three values appears
+n_present <- has0 + has1 + has2
+monomorphic <- n_present <= 1
+
+cat("Monomorphic %:", mean(monomorphic) * 100, "\n")
+
+geno_poly <- geno_dt[, !monomorphic, with = FALSE]
+
+n_poly <- ncol(geno_poly)
+cat("Remaining variants:", n_poly, "\n", "Removed variants:", ncol(geno_dt)-n_poly, "\n", "These polymorphic variants were used for all subsequent analyses.")
+```
+
+## 3. Extract polymorphism rs587756191 T from the data, and determine its genotype counts. Apply a chi-square test for Hardy-Weinberg equilibrium, with and without continuity correction. Also try an exact test, and a permutation test. You can use thee functions HWChisq, HWExact and HWPerm for this purpose. Do you think this variant is in equilibrium? Argue your answer
+```{r}
+"rs587756191_T" %in% colnames(geno_poly)
+
+x <- geno_poly[["rs587756191_T"]]
+
+# Genotype counts
+g0 <- sum(x == 0, na.rm = TRUE)
+g1 <- sum(x == 1, na.rm = TRUE)
+g2 <- sum(x == 2, na.rm = TRUE)
+
+
+counts <- c(AA = g0, AB = g1, BB = g2)
+print(counts)
+
+# Chi-Square Test
+# Without continuity correction
+HWChisq(counts, cc = 0)
+
+# With continuity correction
+HWChisq(counts, cc = 0.5)
+
+# Exact Test
+HWExact(counts)
+
+# Permutation Test
+HWPerm(counts)
+
+
+```
+
+
+The variant **rs587756191_T is in Hardy-Weinberg equilibrium**.
+
+
+## 4. Determine the genotype counts for all polymorphic variants, and store them in a p × 3 matrix.
+```{r}
+m <- as.matrix(geno_poly)
+
+# Count genotypes per variant
+n_AA <- colSums(m == 0, na.rm = TRUE)   
+n_AB <- colSums(m == 1, na.rm = TRUE)   
+n_BB <- colSums(m == 2, na.rm = TRUE)   
+
+# p × 3 matrix
+genotype_counts <- cbind(AA = n_AA, AB = n_AB, BB = n_BB)
+
+# Check dimensions
+dim(genotype_counts)
+
+# First few rows
+head(genotype_counts)
+```
+
+## 5. Apply an exact test for Hardy-Weinberg equilibrium to each SNP. You can use function HWExactStats for fast computation. What is the percentage of significant SNPs (use $alpha$ = 0.05)? Is this the number of markers that you would expect to be out of equilibrium by the effect of chance alone?
+```{r}
+#Exact test for all SNPs
+hwe_results <- HWExactStats(genotype_counts)
+
+# Significant at alpha = 0.05
+significant <- hwe_results < 0.05
+n_significant <- sum(significant, na.rm = TRUE)
+pct_significant <- mean(significant, na.rm = TRUE) * 100
+
+cat("Number of significant SNPs:", n_significant, "\n")
+cat("Percentage of significant SNPs:", round(pct_significant, 2), "%\n")
+cat("Expected by chance (5%):", round(0.05 * length(hwe_results), 0), "\n")
+```
+
+## Conclusion
+
+
+The observed percentage (2.77%) is lower than the expected 5%, meaning there are fewer deviations from HWE than would be expected by chance. This suggests the data are relatively clean.
+## 6.  Which SNP is most significant according to the exact test results? Give its genotype counts. In which sense is this genotypic composition unusual?
+```{r}
+# Find the minimum p-value
+min_p <- min(hwe_results, na.rm = TRUE)
+cat("Minimum p-value:", min_p, "\n")
+
+# Which SNP has it
+most_sig <- which.min(hwe_results)
+
+cat("Most significant SNP:", colnames(geno_poly)[most_sig], "\n")
+
+genotype_counts[most_sig, ]
+```
+
+## Most Significant SNP
+
+The most significant SNP according to the exact test has genotype counts of 56 AA, 0 AB, and 51 BB.
+
+A complete absence of heterozygotes is biologically implausible under random mating and is almost certainly an artifact
+
+## 7. Compute the inbreeding coefficient (f) for each SNP, and make a histogram of f. You can use function HWf for this purpose. Give descriptive statistics (mean, standard deviation, etc) of f calculated over the set of SNPs. What distribution do you expect f to follow theoretically? Use a probability plot to confirm your idea.
+```{r}
+
+#  F for all SNPs
+f_values <- HWf(genotype_counts)
+
+# Hist
+hist(f_values, breaks = 50, col = "steelblue",
+     main = "Distribution of F across SNPs",
+     xlab = "F", ylab = "Number of SNPs")
+abline(v = 0, col = "red", lty = 2)
+
+# Descriptive statistics
+cat("Mean:", round(mean(f_values, na.rm = TRUE), 4), "\n")
+cat("SD:", round(sd(f_values, na.rm = TRUE), 4), "\n")
+cat("Median:", round(median(f_values, na.rm = TRUE), 4), "\n")
+cat("Min:", round(min(f_values, na.rm = TRUE), 4), "\n")
+cat("Max:", round(max(f_values, na.rm = TRUE), 4), "\n")
+
+# QQ plot
+qqnorm(f_values, main = "QQ plot of F values", pch = 19, col = "steelblue")
+qqline(f_values, col = "red", lwd = 2)
+```
+
+Some SNPs show extreme $F$ values, suggesting real deviations from HWE 
+
+## 8. Apply the exact test for HWE to each SNP, using different significant levels. Report the number and percentage of significant variants using an exac test for HWE with $alpha$= 0.10, 0.05, 0.01 and 0.001. State your conclusions.
+```{r}
+
+# exact test to all SNPs
+hwe_results <- HWExactStats(genotype_counts)
+
+#  significance levels
+alphas <- c(0.10, 0.05, 0.01, 0.001)
+
+#  significant SNPs at each level
+results <- data.frame(
+  alpha = alphas,
+  n_significant = sapply(alphas, function(a) sum(hwe_results < a, na.rm = TRUE)),
+  pct_significant = sapply(alphas, function(a) mean(hwe_results < a, na.rm = TRUE) * 100)
+)
+
+#  expected by chance
+results$expected_chance <- results$alpha * length(hwe_results)
+
+
+print(results)
+```
+
