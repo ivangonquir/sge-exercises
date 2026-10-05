@@ -1,0 +1,3318 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Statistical Genetics - practical 3},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Statistical Genetics - practical 3}
+\author{}
+\date{\vspace{-2.5em}2026-10-05}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#install.packages(c("data.table", "HardyWeinberg", "genetics", "haplo.stats"))}
+
+\FunctionTok{library}\NormalTok{(data.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'data.table'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     %notin%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(genetics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: combinat
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'combinat'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     combn
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: gdata
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'gdata'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:data.table':
+## 
+##     first, last
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     nobs
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     object.size
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     startsWith
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: gtools
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: MASS
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: mvtnorm
+\end{verbatim}
+
+\begin{verbatim}
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## NOTE: THIS PACKAGE IS NOW OBSOLETE.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+\end{verbatim}
+
+\begin{verbatim}
+##   The R-Genetics project has developed an set of enhanced genetics
+\end{verbatim}
+
+\begin{verbatim}
+##   packages to replace 'genetics'. Please visit the project homepage
+\end{verbatim}
+
+\begin{verbatim}
+##   at http://rgenetics.org for informtion.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'genetics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     %in%, as.factor, order
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(HardyWeinberg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: mice
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'mice'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     filter
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     cbind, rbind
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: nnet
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Rsolnp
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: shape
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(parallel)}
+\CommentTok{\# install.packages(\textquotesingle{}haplo.stats\textquotesingle{}, repos = c(\textquotesingle{}https://sinnweja.r{-}universe.dev\textquotesingle{}, \textquotesingle{}https://cloud.r{-}project.org\textquotesingle{}))}
+\FunctionTok{library}\NormalTok{(haplo.stats)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: arsenal
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'haplo.stats'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:genetics':
+## 
+##     locus
+\end{verbatim}
+
+\section{Linkage Disequilibrium}\label{linkage-disequilibrium}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  (0.5p) Load the FOXP2.dat file into the R environment. How many
+  individuals and how many SNPs are there in the database? What
+  percentage of the data is missing?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{foxp2 }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(}\StringTok{"FOXP2/FOXP2.dat"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Individuals:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(foxp2), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Individuals: 104
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"SNPs:"}\NormalTok{, }\FunctionTok{ncol}\NormalTok{(foxp2) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## SNPs: 543
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno }\OtherTok{\textless{}{-}}\NormalTok{ foxp2[, }\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(foxp2)]}
+
+\NormalTok{all\_values }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(geno))}
+\FunctionTok{print}\NormalTok{(all\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "T/G" "G/G" "T/T" "C/T" "C/C" "G/A" "A/A" "A/T" "G/T" "A/G" "A/C" "T/C"
+## [13] "C/G" "T/A" "C/A" "G/C"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pct\_missing }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(geno)) }\SpecialCharTok{*} \DecValTok{100}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Percentage missing:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(pct\_missing, }\DecValTok{2}\NormalTok{), }\StringTok{"\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Percentage missing: 0 %
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  (1p) Using the function LD from the genetics package, compute the LD
+  statistic D for the SNPs rs34684677 and rs2894715 of the database. Is
+  there significant association between the alleles of these two SNPs?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{snp1 }\OtherTok{\textless{}{-}}\NormalTok{ foxp2[[}\StringTok{"rs34684677"}\NormalTok{]]}
+\NormalTok{snp2 }\OtherTok{\textless{}{-}}\NormalTok{ foxp2[[}\StringTok{"rs2894715"}\NormalTok{]]}
+
+\NormalTok{g1 }\OtherTok{\textless{}{-}} \FunctionTok{genotype}\NormalTok{(snp1, }\AttributeTok{sep =} \StringTok{"/"}\NormalTok{)}
+\NormalTok{g2 }\OtherTok{\textless{}{-}} \FunctionTok{genotype}\NormalTok{(snp2, }\AttributeTok{sep =} \StringTok{"/"}\NormalTok{)}
+
+\NormalTok{ld\_result }\OtherTok{\textless{}{-}} \FunctionTok{LD}\NormalTok{(g1, g2)}
+\FunctionTok{print}\NormalTok{(ld\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Pairwise LD
+## -----------
+##                      D        D'       Corr
+## Estimates: -0.05493703 0.9986536 -0.3144048
+## 
+##               X^2     P-value   N
+## LD Test: 20.56088 5.77645e-06 104
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"D:"}\NormalTok{, ld\_result}\SpecialCharTok{$}\NormalTok{D, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## D: -0.05493703
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"D\textquotesingle{}:"}\NormalTok{, ld\_result}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{D\textquotesingle{}}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## D': 0.9986536
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"r:"}\NormalTok{, ld\_result}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{r}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## r: -0.3144048
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"R2:"}\NormalTok{, ld\_result}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{X\^{}2}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R2: 20.56088
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"p{-}value:"}\NormalTok{, ld\_result}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{ P{-}value}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## p-value:
+\end{verbatim}
+
+\subsection{LD between rs34684677 and
+rs2894715}\label{ld-between-rs34684677-and-rs2894715}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Statistic & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{D} & -0.05494 \\
+\textbf{D'} & 0.9987 \\
+\textbf{r} & -0.3144 \\
+\textbf{X2} & 20.561 \\
+\textbf{p-value} & 5.78 × 10⁻⁶ \\
+\textbf{N} & 104 \\
+\end{longtable}
+}
+
+\subsection{Interpretation}\label{interpretation}
+
+The linkage disequilibrium coefficient is \textbf{D = -0.05494},
+indicating a slight negative LD between the two SNPs. However, the
+normalised statistic \textbf{D' = 0.9987} is close to 1, indicating
+\textbf{near-complete linkage disequilibrium} --- the two SNPs are
+almost always inherited together, with very little evidence of
+historical recombination between them.
+
+The chi-square test gives \textbf{X2 = 20.561} with a \textbf{p-value of
+5.78 × 10⁻⁶}, which is far below the significance threshold of 0.05.
+
+\textbf{Conclusion:} There is a \textbf{highly significant association}
+between the alleles of rs34684677 and rs2894715 (p \textless{} 0.001).
+We reject the null hypothesis of no association. The high D' value
+further indicates that these two SNPs are in near-complete linkage
+disequilibrium.
+
+There is a highly significant association.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  (1p) Given your previous estimate of D for SNPs rs34684677 and
+  rs2894715, infer the haplotype frequencies. Which haplotype is the
+  most common?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{af1 }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(g1)}\SpecialCharTok{$}\NormalTok{allele.freq}
+\NormalTok{af2 }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(g2)}\SpecialCharTok{$}\NormalTok{allele.freq}
+\FunctionTok{print}\NormalTok{(af1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Count Proportion
+## G   174  0.8365385
+## T    34  0.1634615
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(af2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Count Proportion
+## T   138  0.6634615
+## G    70  0.3365385
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_a1 }\OtherTok{\textless{}{-}}\NormalTok{ af1[}\DecValTok{1}\NormalTok{, }\StringTok{"Proportion"}\NormalTok{]   }
+\NormalTok{p\_a2 }\OtherTok{\textless{}{-}}\NormalTok{ af1[}\DecValTok{2}\NormalTok{, }\StringTok{"Proportion"}\NormalTok{]  }
+\NormalTok{p\_b1 }\OtherTok{\textless{}{-}}\NormalTok{ af2[}\DecValTok{1}\NormalTok{, }\StringTok{"Proportion"}\NormalTok{]  }
+\NormalTok{p\_b2 }\OtherTok{\textless{}{-}}\NormalTok{ af2[}\DecValTok{2}\NormalTok{, }\StringTok{"Proportion"}\NormalTok{]}
+
+\NormalTok{D }\OtherTok{\textless{}{-}}\NormalTok{  ld\_result}\SpecialCharTok{$}\NormalTok{D}
+
+\CommentTok{\# Haplotype frequencies}
+\NormalTok{f\_a1b1 }\OtherTok{\textless{}{-}}\NormalTok{ p\_a1 }\SpecialCharTok{*}\NormalTok{ p\_b1 }\SpecialCharTok{+}\NormalTok{ D}
+\NormalTok{f\_a1b2 }\OtherTok{\textless{}{-}}\NormalTok{ p\_a1 }\SpecialCharTok{*}\NormalTok{ p\_b2 }\SpecialCharTok{{-}}\NormalTok{ D}
+\NormalTok{f\_a2b1 }\OtherTok{\textless{}{-}}\NormalTok{ p\_a2 }\SpecialCharTok{*}\NormalTok{ p\_b1 }\SpecialCharTok{{-}}\NormalTok{ D}
+\NormalTok{f\_a2b2 }\OtherTok{\textless{}{-}}\NormalTok{ p\_a2 }\SpecialCharTok{*}\NormalTok{ p\_b2 }\SpecialCharTok{+}\NormalTok{ D}
+
+\NormalTok{haps }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"G T"} \OtherTok{=}\NormalTok{ f\_a1b1,}
+  \StringTok{"G G"} \OtherTok{=}\NormalTok{ f\_a1b2,}
+  \StringTok{"T T"} \OtherTok{=}\NormalTok{ f\_a2b1,}
+  \StringTok{"T G"} \OtherTok{=}\NormalTok{ f\_a2b2}
+\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(haps, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    G T    G G    T T    T G 
+## 0.5001 0.3365 0.1634 0.0001
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Most common haplotype:"}\NormalTok{, }\FunctionTok{names}\NormalTok{(}\FunctionTok{which.max}\NormalTok{(haps)), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Most common haplotype: G T
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Frequency:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(haps), }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Frequency: 0.5001
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  (1p) Determine the genotype counts for each SNP. For how many variants
+  do you reject Hardy-Weinberg equilibrium using an ordinary chi-square
+  test without continuity correction? Is this what you would expect by
+  chance? (hint: you can read the .bim in R in order to determine the
+  alleles of each SNP, and use function MakeCounts from the
+  HardyWeinberg package to create a matrix of genotype counts).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bim }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(}\StringTok{"FOXP2/FOXP2.bim"}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(bim) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"chr"}\NormalTok{, }\StringTok{"snp"}\NormalTok{, }\StringTok{"cm"}\NormalTok{, }\StringTok{"bp"}\NormalTok{, }\StringTok{"a1"}\NormalTok{, }\StringTok{"a2"}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(bim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      chr         snp    cm        bp     a1     a2
+##    <int>      <char> <int>     <int> <char> <char>
+## 1:     7  rs34684677     0 114400288      T      G
+## 2:     7   rs1839115     0 114400872      C      T
+## 3:     7   rs4727804     0 114400999      G      A
+## 4:     7   rs4727805     0 114401123      T      G
+## 5:     7 rs200888633     0 114401388      T      G
+## 6:     7  rs12534908     0 114402258      G      A
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno }\OtherTok{\textless{}{-}}\NormalTok{ foxp2[, }\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(foxp2)]}
+
+\FunctionTok{head}\NormalTok{(geno)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    rs34684677 rs1839115 rs4727804 rs4727805 rs200888633 rs12534908 rs12533049
+##        <char>    <char>    <char>    <char>      <char>     <char>     <char>
+## 1:        T/G       C/T       G/A       T/G         T/G        G/A        C/T
+## 2:        G/G       T/T       A/A       G/G         T/G        A/A        T/T
+## 3:        G/G       T/T       A/A       G/G         T/G        A/A        T/T
+## 4:        G/G       T/T       A/A       G/G         T/T        A/A        T/T
+## 5:        G/G       T/T       A/A       G/G         T/T        A/A        T/T
+## 6:        T/T       C/C       G/G       T/G         G/G        G/G        C/C
+##    rs77861356 rs6945561 rs2894715 rs6963767 rs71149763 rs10272269 rs1448345
+##        <char>    <char>    <char>    <char>     <char>     <char>    <char>
+## 1:        T/T       C/T       G/T       A/G        A/G        C/C       A/G
+## 2:        T/T       T/T       G/T       G/G        G/G        A/C       G/G
+## 3:        T/T       T/T       G/T       G/G        G/G        A/C       G/G
+## 4:        T/T       T/T       G/G       G/G        G/G        C/C       G/G
+## 5:        T/T       T/T       G/G       G/G        G/G        C/C       G/G
+## 6:        T/T       C/C       T/T       A/A        A/A        C/C       A/A
+##    rs12673017 rs1530680 rs10156206 rs74448586 rs376810783 rs78438375
+##        <char>    <char>     <char>     <char>      <char>     <char>
+## 1:        C/C       G/T        G/G        C/G         C/T        G/G
+## 2:        T/C       T/T        A/G        C/G         T/T        G/G
+## 3:        T/C       T/T        A/G        C/G         T/T        G/G
+## 4:        C/C       T/T        G/G        C/C         T/T        G/G
+## 5:        C/C       T/T        G/G        C/C         T/T        G/G
+## 6:        C/C       G/G        G/G        G/G         T/T        G/G
+##    rs138986595 rs78087153 rs17137252 rs58903386 rs7784074 rs6970464 rs6950442
+##         <char>     <char>     <char>     <char>    <char>    <char>    <char>
+## 1:         A/A        A/A        T/C        A/A       G/G       C/T       G/A
+## 2:         A/A        A/A        C/C        G/A       C/G       T/T       A/A
+## 3:         A/A        A/A        C/C        G/A       C/G       T/T       A/A
+## 4:         A/A        A/A        C/C        A/A       G/G       T/T       A/A
+## 5:         A/A        A/A        C/C        A/A       G/G       T/T       A/A
+## 6:         A/A        A/A        T/T        A/A       G/G       C/C       G/G
+##    rs145302567 rs141580498 rs147031242 rs72603583 rs17137259 rs139762779
+##         <char>      <char>      <char>     <char>     <char>      <char>
+## 1:         T/T         A/A         C/C        T/T        T/T         A/A
+## 2:         T/T         A/A         C/C        A/T        T/T         A/A
+## 3:         T/T         A/A         C/C        A/T        T/T         A/A
+## 4:         C/T         A/A         C/C        T/T        C/T         A/A
+## 5:         C/T         A/A         C/C        T/T        T/T         A/A
+## 6:         T/T         A/A         C/C        T/T        T/T         A/A
+##    rs141591706 rs117262014 rs11330904 rs12705991 rs144519128 rs143584563
+##         <char>      <char>     <char>     <char>      <char>      <char>
+## 1:         T/C         A/T        A/T        G/G         C/T         A/A
+## 2:         T/C         A/T        T/T        G/G         T/T         A/A
+## 3:         T/C         T/T        T/T        G/G         T/T         A/A
+## 4:         T/T         A/A        T/T        G/G         T/T         A/A
+## 5:         T/T         A/A        T/T        G/G         T/T         A/A
+## 6:         C/C         T/T        A/T        T/G         C/T         A/A
+##    rs4730646 rs1448346 rs149644712 rs555773298 rs574814055 rs76959153
+##       <char>    <char>      <char>      <char>      <char>     <char>
+## 1:       C/A       C/A         C/C         C/C         C/C        T/C
+## 2:       C/A       C/A         T/C         C/C         C/C        T/C
+## 3:       C/A       C/A         C/C         C/C         C/C        T/C
+## 4:       C/C       C/C         C/C         C/C         C/C        T/T
+## 5:       C/C       C/C         C/C         C/C         C/C        T/T
+## 6:       A/A       A/A         C/C         C/C         C/C        C/C
+##    rs79286952 rs17137262 rs147508676 rs34141730 rs71573110 rs12667130
+##        <char>     <char>      <char>     <char>     <char>     <char>
+## 1:        A/T        A/T         C/C        T/C        G/G        G/A
+## 2:        A/T        A/T         C/C        T/C        G/G        G/A
+## 3:        A/T        A/T         C/C        T/C        G/G        G/A
+## 4:        A/A        A/A         C/C        T/T        G/G        G/G
+## 5:        A/A        A/A         C/C        T/T        G/G        G/G
+## 6:        T/T        T/T         C/C        C/C        G/G        A/A
+##    rs17137266 rs77946367 rs9649372 rs77911776 rs17504461 rs141644709 rs12705992
+##        <char>     <char>    <char>     <char>     <char>      <char>     <char>
+## 1:        T/G        A/C       G/A        G/A        G/A         A/A        G/A
+## 2:        T/G        A/C       G/A        G/A        A/A         A/A        G/A
+## 3:        T/G        A/C       G/A        G/A        A/A         A/A        G/A
+## 4:        T/T        A/A       G/G        G/G        A/A         A/A        G/G
+## 5:        T/T        A/A       G/G        G/G        A/A         A/A        G/G
+## 6:        G/G        C/C       A/A        A/A        G/A         A/A        A/A
+##    rs80172389 rs76173384 rs1448349 rs144039377 rs4366023 rs536518417 rs78877522
+##        <char>     <char>    <char>      <char>    <char>      <char>     <char>
+## 1:        G/T        C/C       C/C         C/C       T/C         T/T        G/G
+## 2:        T/T        T/C       T/C         C/C       T/C         T/T        G/G
+## 3:        T/T        C/C       T/C         C/C       T/C         T/T        G/G
+## 4:        T/T        C/C       C/C         C/C       C/C         T/T        G/G
+## 5:        T/T        C/C       C/C         C/C       C/C         T/T        G/G
+## 6:        G/T        C/C       C/C         C/C       T/C         T/T        G/G
+##    rs74643998 rs35981094 rs117176345 rs1034591 rs150261779 rs10232016
+##        <char>     <char>      <char>    <char>      <char>     <char>
+## 1:        C/C        C/C         G/G       G/A         T/T        T/T
+## 2:        C/C        T/C         G/G       G/A         T/T        G/T
+## 3:        C/C        T/C         G/G       G/A         T/T        G/T
+## 4:        C/C        C/C         G/G       A/A         T/T        T/T
+## 5:        C/C        C/C         G/G       A/A         T/T        T/T
+## 6:        C/C        C/C         G/G       G/A         T/T        T/T
+##    rs35087321 rs35208271 rs35598602 rs34858904 rs141310579 rs78868971
+##        <char>     <char>     <char>     <char>      <char>     <char>
+## 1:        T/G        A/A        T/T        G/A         C/C        G/G
+## 2:        T/G        A/A        T/T        G/A         C/C        G/G
+## 3:        T/G        A/A        T/T        G/A         C/C        G/G
+## 4:        T/T        T/A        T/T        A/A         C/C        G/G
+## 5:        T/T        A/A        T/T        A/A         C/C        G/G
+## 6:        T/G        A/A        T/T        G/A         C/C        G/G
+##    rs138859781 rs56040249 rs11505925 rs76381941 rs77539750 rs1011449 rs12533895
+##         <char>     <char>     <char>     <char>     <char>    <char>     <char>
+## 1:         C/C        A/A        C/C        A/A        A/A       A/A        T/T
+## 2:         T/C        A/A        T/C        A/A        A/A       C/A        C/T
+## 3:         C/C        A/A        T/C        A/A        A/A       C/A        C/T
+## 4:         C/C        A/A        C/C        A/A        A/A       A/A        T/T
+## 5:         C/C        A/A        C/C        A/A        A/A       A/A        T/T
+## 6:         C/C        G/A        C/C        A/A        A/A       A/A        T/T
+##    rs71573111 rs182139959 rs117592784 rs112228732 rs143676045 rs145956158
+##        <char>      <char>      <char>      <char>      <char>      <char>
+## 1:        G/G         T/T         T/T         A/C         G/G         T/T
+## 2:        G/G         T/T         T/T         C/C         G/G         G/T
+## 3:        G/G         T/T         T/T         C/C         G/G         G/T
+## 4:        G/G         T/T         T/T         C/C         G/G         T/T
+## 5:        G/G         T/T         T/T         C/C         G/G         T/T
+## 6:        A/G         T/T         A/T         A/C         G/G         T/T
+##    rs7455681 rs139002079 rs78363329 rs2396769 rs12673172 rs1971627 rs148002613
+##       <char>      <char>     <char>    <char>     <char>    <char>      <char>
+## 1:       T/T         G/G        G/G       C/C        A/A       C/C         T/T
+## 2:       C/T         G/G        G/G       T/C        A/A       G/C         T/T
+## 3:       C/T         G/G        G/G       T/C        A/A       G/C         T/T
+## 4:       T/T         G/G        G/G       C/C        A/A       C/C         T/T
+## 5:       T/T         G/G        G/G       C/C        A/A       C/C         T/T
+## 6:       T/T         G/G        G/G       C/C        A/A       C/C         T/T
+##    rs17137306 rs79375112 rs74898267 rs12671204 rs10607552 rs144706654
+##        <char>     <char>     <char>     <char>     <char>      <char>
+## 1:        A/A        G/A        G/G        A/G        T/T         G/G
+## 2:        A/A        A/A        G/G        G/G        T/T         G/G
+## 3:        A/A        A/A        G/G        A/G        T/T         G/G
+## 4:        A/A        A/A        G/G        G/G        T/T         G/G
+## 5:        A/A        A/A        G/G        A/G        T/T         G/G
+## 6:        G/A        G/A        A/G        A/G        A/T         G/G
+##    rs74301870 rs79949737 rs140886122 rs75865664 rs117355976 rs35879947
+##        <char>     <char>      <char>     <char>      <char>     <char>
+## 1:        T/T        C/C         T/T        G/A         T/T        T/T
+## 2:        A/T        T/C         T/T        A/A         T/T        T/T
+## 3:        T/T        T/C         C/T        G/A         T/T        T/T
+## 4:        T/T        C/C         T/T        A/A         T/T        T/T
+## 5:        T/T        C/C         T/T        G/A         T/T        T/T
+## 6:        T/T        C/C         T/T        G/A         C/T        T/T
+##    rs9641524 rs76800596 rs57503673 rs5886733 rs74934890 rs139966479 rs34155524
+##       <char>     <char>     <char>    <char>     <char>      <char>     <char>
+## 1:       C/C        A/A        C/T       T/T        C/C         T/T        A/T
+## 2:       T/C        A/A        T/T       T/T        T/C         T/T        A/T
+## 3:       C/C        A/A        C/T       T/T        C/C         T/T        A/T
+## 4:       C/C        A/A        C/C       T/T        C/C         T/T        A/T
+## 5:       C/C        A/A        C/T       T/T        C/C         T/T        A/T
+## 6:       C/C        A/A        T/T       C/T        C/C         T/T        T/T
+##    rs5886734 rs77668776 rs138800670 rs12539958 rs75070797 rs188177825 rs6466499
+##       <char>     <char>      <char>     <char>     <char>      <char>    <char>
+## 1:       T/T        A/A         C/C        A/A        T/C         T/T       A/G
+## 2:       G/T        A/A         C/C        A/A        T/C         T/T       G/G
+## 3:       G/T        A/A         C/C        A/A        T/C         T/T       A/G
+## 4:       T/T        A/A         C/C        A/A        T/T         T/T       G/G
+## 5:       T/T        A/A         C/C        A/A        T/C         T/T       A/G
+## 6:       G/T        A/A         C/C        A/A        C/C         T/T       A/G
+##    rs369288624 rs2188308 rs142272452 rs75514476 rs71573116 rs2188307
+##         <char>    <char>      <char>     <char>     <char>    <char>
+## 1:         T/T       C/C         T/T        G/G        C/T       T/C
+## 2:         T/T       C/C         T/T        G/G        C/T       T/C
+## 3:         T/T       C/C         T/T        G/G        C/T       T/C
+## 4:         T/T       C/C         T/T        G/G        C/C       C/C
+## 5:         T/T       C/C         T/T        G/G        C/T       T/C
+## 6:         T/T       G/C         T/T        T/G        C/T       T/C
+##    rs144868038 rs74301871 rs74784761 rs75742517 rs77332840 rs78066947
+##         <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         C/C        A/A        T/T        G/G        A/A        A/A
+## 2:         C/C        G/A        G/T        A/G        G/A        A/A
+## 3:         C/C        A/A        T/T        G/G        A/A        A/A
+## 4:         C/C        A/A        T/T        G/G        A/A        A/A
+## 5:         C/C        A/A        T/T        G/G        A/A        A/A
+## 6:         C/C        A/A        T/T        G/G        A/A        A/A
+##    rs139477889 rs117767988 rs2188306 rs4730650 rs2894718 rs61048929 rs72391551
+##         <char>      <char>    <char>    <char>    <char>     <char>     <char>
+## 1:         G/G         C/C       A/A       T/T       A/C        G/G        A/C
+## 2:         G/G         C/C       G/A       C/T       A/C        A/G        C/C
+## 3:         G/G         C/C       A/A       T/T       A/C        G/G        A/C
+## 4:         G/G         C/C       A/A       T/T       A/A        G/G        C/C
+## 5:         G/G         C/C       A/A       T/T       A/C        G/G        A/C
+## 6:         G/G         C/C       A/A       T/T       C/C        G/G        A/C
+##    rs200621424 rs113866049 rs11287035 rs80353484 rs12667929 rs145787177
+##         <char>      <char>     <char>     <char>     <char>      <char>
+## 1:         A/A         A/A        A/A        G/A        T/G         A/A
+## 2:         T/A         T/A        T/A        A/A        G/G         A/A
+## 3:         A/A         A/A        A/A        G/A        T/G         A/A
+## 4:         A/A         A/A        A/A        G/A        G/G         A/A
+## 5:         A/A         A/A        A/A        G/A        T/G         A/A
+## 6:         A/A         A/A        A/A        A/A        T/G         A/A
+##    rs77927448 rs150620895 rs78893462 rs77455231 rs4265116 rs2040553 rs55764474
+##        <char>      <char>     <char>     <char>    <char>    <char>     <char>
+## 1:        C/C         T/T        C/C        C/C       T/G       T/T        T/T
+## 2:        T/C         C/T        A/C        T/C       G/G       C/T        C/T
+## 3:        C/C         T/T        C/C        C/C       T/G       T/T        T/T
+## 4:        C/C         T/T        C/C        C/C       G/G       T/T        T/T
+## 5:        C/C         T/T        C/C        C/C       T/G       T/T        T/T
+## 6:        C/C         T/T        C/C        C/C       T/G       T/T        T/T
+##    rs60603074 rs117053980 rs73446320 rs113615161 rs375859863 rs145422342
+##        <char>      <char>     <char>      <char>      <char>      <char>
+## 1:        C/C         A/A        A/A         T/C         C/C         G/G
+## 2:        T/C         C/A        T/A         C/C         C/C         A/G
+## 3:        C/C         A/A        A/A         T/C         C/C         G/G
+## 4:        C/C         A/A        A/A         C/C         C/C         G/G
+## 5:        C/C         A/A        A/A         T/C         C/C         G/G
+## 6:        C/C         A/A        A/A         T/C         C/C         G/G
+##    rs112901151 rs77401526 rs142761489 rs75193904 rs76422304 rs74657679
+##         <char>     <char>      <char>     <char>     <char>     <char>
+## 1:         G/G        T/T         T/T        G/G        A/A        G/G
+## 2:         T/G        C/T         G/T        A/G        G/A        A/G
+## 3:         G/G        T/T         T/T        G/G        A/A        G/G
+## 4:         G/G        T/T         T/T        G/G        A/A        G/G
+## 5:         G/G        T/T         T/T        G/G        A/A        G/G
+## 6:         G/G        T/T         T/T        G/G        A/A        G/G
+##    rs66481522 rs73719515 rs80106024 rs73448342 rs75839279 rs116924248
+##        <char>     <char>     <char>     <char>     <char>      <char>
+## 1:        A/A        T/T        C/C        G/G        T/C         C/C
+## 2:        A/A        G/T        T/C        A/G        T/C         C/C
+## 3:        A/A        T/T        C/C        G/G        T/C         C/C
+## 4:        A/A        T/T        C/C        G/G        T/T         C/C
+## 5:        A/A        T/T        C/C        G/G        T/C         C/C
+## 6:        A/A        T/T        C/C        G/G        C/C         C/C
+##    rs79772160 rs112592323 rs2396774 rs557780941 rs72499540 rs549252586
+##        <char>      <char>    <char>      <char>     <char>      <char>
+## 1:        C/C         C/C       G/G         T/T        A/A         G/G
+## 2:        T/C         T/C       A/G         T/T        G/A         G/G
+## 3:        C/C         C/C       G/G         T/T        A/A         G/G
+## 4:        C/C         C/C       G/G         T/T        A/A         G/G
+## 5:        C/C         C/C       G/G         T/T        A/A         G/G
+## 6:        C/C         C/C       G/G         T/T        A/A         G/G
+##    rs73448358 rs7800333 rs59254308 rs148835074 rs57022614 rs150859655 rs4730654
+##        <char>    <char>     <char>      <char>     <char>      <char>    <char>
+## 1:        T/T       C/C        T/T         T/T        C/C         C/C       G/G
+## 2:        A/T       T/C        G/T         T/T        A/C         T/C       T/G
+## 3:        T/T       C/C        T/T         T/T        C/C         C/C       G/G
+## 4:        T/T       C/C        T/T         T/T        C/C         C/C       G/G
+## 5:        T/T       C/C        T/T         T/T        C/C         C/C       G/G
+## 6:        T/T       C/C        T/T         T/T        C/C         C/C       G/G
+##    rs148297535 rs111494921 rs12375171 rs13205296 rs2396775 rs111812081
+##         <char>      <char>     <char>     <char>    <char>      <char>
+## 1:         A/A         C/C        G/G        G/G       C/C         C/C
+## 2:         T/A         G/C        A/G        A/G       T/C         C/C
+## 3:         A/A         C/C        G/G        G/G       C/C         C/C
+## 4:         A/A         C/C        G/G        G/G       C/C         C/C
+## 5:         A/A         C/C        G/G        G/G       C/C         C/C
+## 6:         A/A         C/C        G/G        G/G       C/C         C/C
+##    rs531288348 rs75267278 rs73432910 rs73432912 rs73432914 rs11406061
+##         <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         C/C        G/G        C/C        C/C        T/T        T/T
+## 2:         C/C        C/G        T/C        A/C        C/T        G/T
+## 3:         C/C        G/G        C/C        C/C        T/T        T/T
+## 4:         C/C        G/G        C/C        C/C        T/T        T/T
+## 5:         C/C        G/G        C/C        C/C        T/T        T/T
+## 6:         C/C        G/G        C/C        C/C        T/T        T/T
+##    rs145853442 rs11536575 rs12539321 rs143760754 rs73432916 rs58931421
+##         <char>     <char>     <char>      <char>     <char>     <char>
+## 1:         A/A        G/G        T/A         G/G        G/G        T/G
+## 2:         T/A        G/G        T/A         G/G        C/G        G/G
+## 3:         A/A        G/G        T/A         G/G        G/G        T/G
+## 4:         A/A        G/G        A/A         G/G        G/G        G/G
+## 5:         A/A        G/G        T/A         G/G        G/G        T/G
+## 6:         A/A        G/G        T/A         G/G        G/G        T/G
+##    rs78220205 rs73432919 rs2188311 rs73438869 rs56862672 rs78564144 rs2188309
+##        <char>     <char>    <char>     <char>     <char>     <char>    <char>
+## 1:        G/G        C/C       A/C        A/A        C/T        T/T       T/T
+## 2:        A/G        T/C       A/C        G/A        T/T        G/T       G/T
+## 3:        G/G        C/C       A/C        A/A        C/T        T/T       T/T
+## 4:        G/G        C/C       C/C        A/A        T/T        T/T       T/T
+## 5:        G/G        C/C       A/C        A/A        C/T        T/T       T/T
+## 6:        G/G        C/C       A/C        A/A        C/T        T/T       T/T
+##    rs117283426 rs79656349 rs13235634 rs77202981 rs78799637 rs76779284
+##         <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         C/C        G/A        A/A        T/T        T/T        T/T
+## 2:         T/C        A/A        A/A        C/T        A/T        C/T
+## 3:         C/C        G/A        A/A        T/T        T/T        T/T
+## 4:         C/C        A/A        A/A        T/T        T/T        T/T
+## 5:         C/C        G/A        A/A        T/T        T/T        T/T
+## 6:         C/C        G/A        A/A        T/T        T/T        T/T
+##    rs12673776 rs7796316 rs61183426 rs59694403 rs146817390 rs7802139 rs12154654
+##        <char>    <char>     <char>     <char>      <char>    <char>     <char>
+## 1:        A/G       T/T        T/T        G/T         T/T       G/G        G/G
+## 2:        G/G       C/T        A/T        T/T         T/T       T/G        T/G
+## 3:        A/G       T/T        T/T        G/T         T/T       G/G        G/G
+## 4:        G/G       T/T        T/T        T/T         T/T       G/G        G/G
+## 5:        A/G       T/T        T/T        T/T         T/T       G/G        G/G
+## 6:        A/G       T/T        T/T        T/T         T/T       G/G        G/G
+##    rs73438889 rs192912699 rs74609837 rs182149318 rs184954666 rs79313725
+##        <char>      <char>     <char>      <char>      <char>     <char>
+## 1:        C/C         C/C        G/G         T/T         A/A        T/T
+## 2:        G/C         T/C        T/G         A/T         C/A        C/T
+## 3:        C/C         C/C        G/G         T/T         A/A        T/T
+## 4:        C/C         C/C        G/G         T/T         A/A        T/T
+## 5:        C/C         C/C        G/G         T/T         A/A        T/T
+## 6:        C/C         C/C        G/G         T/T         A/A        T/T
+##    rs75030175 rs79259803 rs4730656 rs116913578 rs138857485 rs10586948
+##        <char>     <char>    <char>      <char>      <char>     <char>
+## 1:        A/A        G/G       G/G         G/A         C/C        G/G
+## 2:        A/A        A/G       G/G         A/A         C/C        T/G
+## 3:        A/A        G/G       G/G         A/A         T/C        G/G
+## 4:        A/A        G/G       G/G         G/A         C/C        G/G
+## 5:        A/A        G/G       G/G         G/A         C/C        G/G
+## 6:        A/A        G/G       G/G         A/A         C/C        G/G
+##    rs79326021 rs146288718 rs79937071 rs117688505 rs77678192 rs13241812
+##        <char>      <char>     <char>      <char>     <char>     <char>
+## 1:        T/G         C/A        A/G         G/G        T/T        G/G
+## 2:        G/G         A/A        G/G         A/G        G/T        A/G
+## 3:        G/G         A/A        A/G         G/G        T/T        G/G
+## 4:        G/G         C/A        G/G         G/G        T/T        G/G
+## 5:        G/G         C/A        A/G         G/G        T/T        G/G
+## 6:        T/G         A/A        A/G         G/G        T/T        G/G
+##    rs61499730 rs4335064 rs140347734 rs137988343 rs12706002 rs543991930
+##        <char>    <char>      <char>      <char>     <char>      <char>
+## 1:        A/G       G/T         T/T         T/T        A/G         T/T
+## 2:        G/G       G/T         T/T         T/T        A/G         G/T
+## 3:        A/G       G/T         T/T         T/T        A/G         T/T
+## 4:        G/G       T/T         T/T         T/T        A/A         T/T
+## 5:        A/G       G/T         T/T         T/T        A/G         T/T
+## 6:        A/G       G/T         T/T         T/T        A/G         T/T
+##    rs118038629 rs74301872 rs35262508 rs145349965 rs77336725 rs10686214
+##         <char>     <char>     <char>      <char>     <char>     <char>
+## 1:         A/A        T/T        T/T         A/A        T/C        T/T
+## 2:         G/A        C/T        G/T         A/A        C/C        C/T
+## 3:         A/A        T/T        T/T         A/A        C/C        T/T
+## 4:         A/A        T/T        T/T         A/A        T/C        T/T
+## 5:         A/A        T/T        T/T         A/A        T/C        T/T
+## 6:         A/A        T/T        T/T         A/A        T/C        T/T
+##    rs12706003 rs76859146 rs11366660 rs13225906 rs75047096 rs7777591 rs7777885
+##        <char>     <char>     <char>     <char>     <char>    <char>    <char>
+## 1:        T/T        G/A        G/G        A/A        T/T       T/T       C/C
+## 2:        C/T        A/A        C/G        A/A        C/T       A/T       A/C
+## 3:        T/T        G/A        G/G        A/A        T/T       T/T       C/C
+## 4:        T/T        A/A        G/G        A/A        T/T       T/T       C/C
+## 5:        T/T        G/A        G/G        A/A        T/T       T/T       C/C
+## 6:        C/T        G/A        C/G        A/A        C/T       A/T       A/C
+##    rs78967116 rs147973136 rs34608476 rs6974753 rs140299589 rs74394686
+##        <char>      <char>     <char>    <char>      <char>     <char>
+## 1:        C/T         T/T        C/T       G/G         A/A        A/A
+## 2:        T/T         T/T        C/T       G/G         A/A        A/A
+## 3:        T/T         T/T        C/T       G/G         G/A        T/A
+## 4:        C/T         T/T        C/T       G/G         A/A        A/A
+## 5:        C/T         T/T        T/T       G/G         A/A        A/A
+## 6:        T/T         T/T        C/T       G/G         A/A        A/A
+##    rs67332555 rs149045919 rs148379216 rs4730658 rs76593995 rs77552526
+##        <char>      <char>      <char>    <char>     <char>     <char>
+## 1:        T/T         A/A         G/G       A/A        A/T        G/G
+## 2:        G/T         A/A         G/G       T/A        T/T        C/G
+## 3:        T/T         G/A         G/G       A/A        T/T        G/G
+## 4:        T/T         A/A         G/G       A/A        T/T        G/G
+## 5:        T/T         A/A         G/G       A/A        T/T        G/G
+## 6:        G/T         A/A         G/G       T/A        T/T        G/G
+##    rs149351252 rs4595064 rs144655075 rs78869609 rs77541900 rs145600396
+##         <char>    <char>      <char>     <char>     <char>      <char>
+## 1:         C/C       C/C         A/A        T/T        A/A         T/T
+## 2:         C/C       T/C         A/A        G/T        C/A         G/T
+## 3:         C/C       C/C         A/A        T/T        A/A         T/T
+## 4:         C/C       C/C         A/A        T/T        A/A         T/T
+## 5:         C/C       C/C         A/A        T/T        A/A         T/T
+## 6:         C/C       T/C         A/A        G/T        C/A         G/T
+##    rs2290076 rs6947846 rs4609131 rs4551278 rs59273804 rs10259595 rs4557633
+##       <char>    <char>    <char>    <char>     <char>     <char>    <char>
+## 1:       A/A       T/T       C/C       C/C        T/T        G/G       C/C
+## 2:       A/A       C/T       T/C       A/C        C/T        A/G       G/C
+## 3:       A/A       T/T       C/C       C/C        C/T        G/G       C/C
+## 4:       A/A       T/T       C/C       C/C        C/T        G/G       C/C
+## 5:       A/A       T/T       C/C       C/C        T/T        G/G       C/C
+## 6:       A/A       C/T       T/C       A/C        T/T        A/G       G/C
+##    rs4313084 rs4727808 rs79376557 rs139496817 rs4344019 rs10247983 rs60125441
+##       <char>    <char>     <char>      <char>    <char>     <char>     <char>
+## 1:       T/T       G/G        G/G         G/G       G/G        A/A        C/C
+## 2:       C/T       A/G        A/G         G/G       A/G        G/A        T/C
+## 3:       T/T       G/G        A/G         G/G       G/G        A/A        C/C
+## 4:       T/T       G/G        A/G         G/G       G/G        A/A        C/C
+## 5:       T/T       G/G        G/G         G/G       G/G        A/A        C/C
+## 6:       C/T       A/G        G/G         G/G       A/G        G/A        T/C
+##    rs77532545 rs4727809 rs7800698 rs4730659 rs11447829 rs147130359 rs79754500
+##        <char>    <char>    <char>    <char>     <char>      <char>     <char>
+## 1:        G/A       G/G       A/A       T/T        T/A         A/A        A/G
+## 2:        G/A       G/G       A/A       T/T        T/A         A/A        A/G
+## 3:        G/A       G/G       G/A       T/T        A/A         A/A        A/G
+## 4:        G/G       G/G       A/A       T/T        T/A         A/A        G/G
+## 5:        G/A       G/G       A/A       T/T        T/A         A/A        A/G
+## 6:        A/A       G/G       A/A       T/T        T/A         A/A        G/G
+##    rs6949639 rs148925170 rs10262038 rs77262362 rs143850710 rs10953770 rs7802986
+##       <char>      <char>     <char>     <char>      <char>     <char>    <char>
+## 1:       A/G         A/A        T/C        G/G         T/C        T/A       A/G
+## 2:       A/G         A/A        T/C        G/G         T/C        T/A       A/G
+## 3:       A/A         A/A        T/T        G/G         C/C        T/T       A/A
+## 4:       G/G         A/A        C/C        G/G         T/T        A/A       G/G
+## 5:       A/G         A/A        T/C        G/G         T/C        T/A       A/G
+## 6:       G/G         G/A        C/C        A/G         T/C        A/A       G/G
+##    rs34588573 rs17137471 rs12668410 rs6974433 rs201148727 rs7811900 rs200462100
+##        <char>     <char>     <char>    <char>      <char>    <char>      <char>
+## 1:        C/C        A/A        A/A       C/A         T/T       T/T         T/T
+## 2:        C/C        G/A        A/A       C/A         T/T       T/T         T/T
+## 3:        T/C        G/A        T/A       C/C         C/T       C/T         C/T
+## 4:        C/C        A/A        A/A       A/A         T/T       T/T         T/T
+## 5:        C/C        A/A        A/A       C/A         T/T       T/T         T/T
+## 6:        C/C        A/A        A/A       A/A         T/T       T/T         T/T
+##    rs73443292 rs10273599 rs35807212 rs143796973 rs78426943 rs56343596
+##        <char>     <char>     <char>      <char>     <char>     <char>
+## 1:        A/G        C/T        A/A         C/C        G/G        T/C
+## 2:        A/G        C/T        A/A         C/C        G/G        C/C
+## 3:        A/G        C/C        G/A         C/C        G/G        C/C
+## 4:        G/G        T/T        A/A         C/C        G/G        C/C
+## 5:        A/G        C/T        A/A         C/C        G/G        C/C
+## 6:        G/G        T/T        A/A         C/C        T/G        C/C
+##    rs17137479 rs34430485 rs2594452 rs35316789 rs12538651 rs4730660 rs11760763
+##        <char>     <char>    <char>     <char>     <char>    <char>     <char>
+## 1:        G/G        A/G       T/C        C/C        G/A       T/C        G/G
+## 2:        G/G        A/G       T/C        C/C        G/A       T/C        G/G
+## 3:        G/G        A/G       T/C        T/C        G/A       T/T        A/G
+## 4:        G/G        G/G       C/C        C/C        A/A       C/C        G/G
+## 5:        G/G        A/G       T/C        C/C        G/A       T/C        G/G
+## 6:        G/G        G/G       C/C        C/C        A/A       C/C        G/G
+##    rs36014646 rs12671855 rs13235066 rs4517056 rs199864094 rs35825584 rs7799732
+##        <char>     <char>     <char>    <char>      <char>     <char>    <char>
+## 1:        T/T        A/A        C/C       A/C         C/C        A/A       G/A
+## 2:        T/T        A/A        C/C       A/C         C/C        A/A       G/A
+## 3:        C/T        T/A        T/C       A/A         C/C        G/A       G/G
+## 4:        T/T        A/A        C/C       C/C         C/C        A/A       A/A
+## 5:        T/T        A/A        C/C       A/C         C/C        A/A       G/A
+## 6:        T/T        A/A        C/C       C/C         C/C        A/A       A/A
+##    rs2594448 rs186369012 rs7776532 rs6466505 rs76672517 rs12111662 rs7786588
+##       <char>      <char>    <char>    <char>     <char>     <char>    <char>
+## 1:       G/A         A/A       T/C       A/A        C/C        G/A       T/T
+## 2:       G/A         A/A       T/C       A/A        C/C        G/A       T/T
+## 3:       G/G         A/A       T/T       G/A        T/C        G/G       T/T
+## 4:       A/A         A/A       C/C       A/A        C/C        A/A       T/T
+## 5:       G/A         A/A       T/C       A/A        C/C        G/A       T/T
+## 6:       A/A         A/A       C/C       A/A        C/C        A/A       T/T
+##    rs6971286 rs78927543 rs11314179 rs76512639 rs12111996 rs2594447 rs71526865
+##       <char>     <char>     <char>     <char>     <char>    <char>     <char>
+## 1:       G/C        G/G        T/T        T/C        C/A       G/G        T/T
+## 2:       G/C        G/G        T/T        T/C        C/A       G/G        T/T
+## 3:       C/C        T/G        G/G        C/C        C/C       A/G        G/T
+## 4:       C/C        G/G        T/T        C/C        A/A       G/G        T/T
+## 5:       G/C        G/G        T/T        T/C        C/A       G/G        T/T
+## 6:       C/C        G/G        G/T        C/C        A/A       G/G        T/T
+##    rs34264986 rs12537464 rs7784447 rs78545803 rs185045495 rs200398385
+##        <char>     <char>    <char>     <char>      <char>      <char>
+## 1:        T/T        G/A       G/G        G/G         C/C         C/T
+## 2:        T/T        G/A       G/G        G/G         T/C         C/T
+## 3:        C/T        A/A       G/G        T/G         C/C         C/T
+## 4:        T/T        A/A       G/G        G/G         C/C         T/T
+## 5:        T/T        G/A       G/G        G/G         C/C         C/T
+## 6:        T/T        A/A       G/G        G/G         C/C         T/T
+##    rs149794352 rs149781530 rs145717065 rs13236293 rs4730661 rs142091309
+##         <char>      <char>      <char>     <char>    <char>      <char>
+## 1:         T/T         C/T         C/T        T/T       G/A         C/C
+## 2:         T/T         C/T         C/T        T/T       G/A         C/C
+## 3:         T/T         C/C         C/T        G/T       G/G         C/C
+## 4:         T/T         T/T         T/T        T/T       A/A         C/C
+## 5:         T/T         C/T         C/T        T/T       G/A         C/C
+## 6:         T/T         T/T         T/T        T/T       A/A         C/C
+##    rs11768115 rs150213073 rs71243006 rs11772009 rs12668301 rs4727810 rs10240788
+##        <char>      <char>     <char>     <char>     <char>    <char>     <char>
+## 1:        C/C         A/G        G/T        T/T        T/C       A/A        C/T
+## 2:        C/C         A/G        G/T        T/T        T/C       A/A        C/T
+## 3:        T/C         A/A        T/T        C/T        C/C       G/A        C/C
+## 4:        C/C         G/G        T/T        T/T        C/C       A/A        T/T
+## 5:        C/C         A/G        G/T        T/T        T/C       A/A        C/T
+## 6:        C/C         G/G        T/T        T/T        C/C       A/A        T/T
+##    rs185839842 rs150955110 rs7792002 rs7791893 rs34136084 rs34808205 rs60307474
+##         <char>      <char>    <char>    <char>     <char>     <char>     <char>
+## 1:         A/A         T/T       G/G       A/C        T/T        A/A        G/G
+## 2:         A/A         T/T       G/G       A/C        T/T        A/A        A/G
+## 3:         A/A         G/T       G/G       A/C        T/T        C/A        A/G
+## 4:         A/A         T/T       G/G       C/C        T/T        A/A        G/G
+## 5:         A/A         T/T       G/G       A/C        T/T        A/A        G/G
+## 6:         A/A         T/T       G/G       C/C        T/T        A/A        G/G
+##    rs78040089 rs140579112 rs6957727 rs17137520 rs34394835 rs148048289 rs7780820
+##        <char>      <char>    <char>     <char>     <char>      <char>    <char>
+## 1:        T/G         T/T       T/T        T/T        A/A         G/G       G/A
+## 2:        T/G         T/T       T/T        T/T        A/A         G/G       G/A
+## 3:        G/G         T/T       T/T        C/T        C/A         G/G       G/A
+## 4:        G/G         T/T       T/T        T/T        A/A         G/G       A/A
+## 5:        T/G         T/T       T/T        T/T        A/A         G/G       G/A
+## 6:        G/G         T/T       T/T        T/T        A/A         G/G       A/A
+##    rs2709517 rs147364626 rs116872619 rs7792017 rs13231549 rs4380861 rs55672808
+##       <char>      <char>      <char>    <char>     <char>    <char>     <char>
+## 1:       C/T         A/T         C/C       G/A        T/T       A/G        C/C
+## 2:       C/T         A/T         C/C       G/A        T/T       A/G        C/C
+## 3:       C/C         A/A         T/C       G/A        T/T       A/G        C/C
+## 4:       T/T         T/T         C/C       A/A        T/T       G/G        C/C
+## 5:       C/T         A/T         C/C       G/A        T/T       A/G        C/C
+## 6:       T/T         T/T         C/C       A/A        T/T       G/G        C/C
+##    rs6978349 rs35318020 rs34475897 rs140007646 rs4730662 rs35353301 rs2594442
+##       <char>     <char>     <char>      <char>    <char>     <char>    <char>
+## 1:       A/C        G/G        A/A         G/G       C/C        A/T       C/A
+## 2:       A/C        G/G        A/A         G/G       C/C        A/T       C/A
+## 3:       A/A        A/G        T/A         G/G       T/C        A/T       C/A
+## 4:       C/C        G/G        A/A         G/G       C/C        A/T       A/A
+## 5:       A/C        G/G        A/A         G/G       C/C        A/T       C/A
+## 6:       C/C        G/G        A/A         G/G       C/C        A/T       A/A
+##    rs148735331 rs57943986 rs13227167 rs62470670 rs12667516 rs80031749
+##         <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         G/G        A/T        A/A        G/A        C/C        T/C
+## 2:         G/G        A/T        A/A        A/A        T/C        T/C
+## 3:         G/G        T/T        A/A        A/A        T/C        C/C
+## 4:         G/G        A/T        A/A        A/A        C/C        T/T
+## 5:         G/G        A/T        A/A        G/A        C/C        T/C
+## 6:         G/G        T/T        A/A        A/A        C/C        T/T
+##    rs34241828 rs117561706 rs3761802 rs6961386 rs9649374 rs1055521 rs13237006
+##        <char>      <char>    <char>    <char>    <char>    <char>     <char>
+## 1:        G/G         A/A       G/A       C/C       A/C       G/G        G/A
+## 2:        A/G         A/A       G/A       C/C       C/C       A/G        A/A
+## 3:        A/G         A/A       A/A       T/C       C/C       A/G        G/A
+## 4:        G/G         A/A       G/G       C/C       C/C       G/G        A/A
+## 5:        G/G         A/A       G/A       C/C       A/C       G/G        G/A
+## 6:        G/G         A/A       G/G       C/C       C/C       G/G        A/A
+##    rs117617725 rs79069122 rs17137551 rs62470671 rs17585463 rs11766431
+##         <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         G/G        G/G        C/T        C/G        A/A        G/G
+## 2:         G/G        G/G        C/T        G/G        A/A        G/G
+## 3:         G/G        A/G        T/T        G/G        A/A        A/G
+## 4:         G/G        G/G        C/C        G/G        A/A        G/G
+## 5:         G/G        G/G        C/T        C/G        A/A        G/G
+## 6:         G/G        G/G        C/C        G/G        A/A        G/G
+##    rs74677519 rs35906165 rs2709496 rs142145861 rs2709495 rs17585678 rs151173747
+##        <char>     <char>    <char>      <char>    <char>     <char>      <char>
+## 1:        T/T        G/G       A/A         A/A       A/A        G/G         C/C
+## 2:        T/T        G/G       G/A         A/A       G/A        G/G         C/C
+## 3:        T/T        T/G       G/A         A/A       G/A        G/G         C/C
+## 4:        T/T        G/G       A/A         A/A       A/A        G/G         C/C
+## 5:        T/T        G/G       A/A         A/A       A/A        G/G         C/C
+## 6:        A/T        G/G       A/A         A/A       A/A        G/G         C/C
+##    rs79613406;rs183236579 rs998903 rs10241046 rs1123065 rs12056022 rs10278037
+##                    <char>   <char>     <char>    <char>     <char>     <char>
+## 1:                    T/A      A/G        G/C       C/C        A/C        G/A
+## 2:                    T/A      G/G        C/C       C/C        C/C        A/A
+## 3:                    A/A      G/G        C/C       C/C        C/C        A/A
+## 4:                    T/T      G/G        C/C       C/C        C/C        A/A
+## 5:                    T/A      A/G        G/C       C/C        A/C        G/A
+## 6:                    T/T      G/G        C/C       C/C        C/C        A/A
+##    rs28825161 rs36178652 rs183213418 rs200182649 rs12056075 rs28824858
+##        <char>     <char>      <char>      <char>     <char>     <char>
+## 1:        A/C        C/C         T/T         T/C        T/G        G/G
+## 2:        A/C        T/C         T/T         T/C        G/G        G/G
+## 3:        A/A        T/C         T/T         C/C        G/G        T/G
+## 4:        C/C        C/C         T/T         T/T        G/G        G/G
+## 5:        A/C        C/C         T/T         T/C        T/G        G/G
+## 6:        C/C        C/C         T/T         T/T        G/G        G/G
+##    rs7797761 rs199817026 rs36199045 rs201567353 rs199603766 rs535137388
+##       <char>      <char>     <char>      <char>      <char>      <char>
+## 1:       T/G         A/G        C/C         G/G         A/G         T/T
+## 2:       G/G         G/G        G/C         T/G         G/G         T/T
+## 3:       G/G         G/G        G/C         T/G         G/G         T/T
+## 4:       G/G         G/G        C/C         G/G         G/G         T/T
+## 5:       T/G         A/G        C/C         G/G         A/G         T/T
+## 6:       G/G         G/G        C/C         G/G         G/G         T/T
+##    rs200821538 rs151292661 rs9720047 rs200959580 rs373640697 rs7781334
+##         <char>      <char>    <char>      <char>      <char>    <char>
+## 1:         G/G         G/A       G/G         G/G         G/A       G/G
+## 2:         A/G         G/A       G/G         G/G         A/A       A/G
+## 3:         A/G         G/G       G/G         T/G         A/A       A/G
+## 4:         G/G         A/A       G/G         G/G         A/A       G/G
+## 5:         G/G         G/A       G/G         G/G         G/A       G/G
+## 6:         G/G         A/A       G/G         G/G         A/A       G/G
+##    rs186635742 rs7801012 rs34391438 rs58188714 rs60702091 rs28374236 rs28520784
+##         <char>    <char>     <char>     <char>     <char>     <char>     <char>
+## 1:         G/G       C/T        G/G        C/T        G/A        G/A        C/G
+## 2:         G/G       C/T        G/G        T/T        A/A        A/A        G/G
+## 3:         G/G       C/C        A/G        T/T        A/A        A/A        G/G
+## 4:         G/G       T/T        G/G        T/T        A/A        A/A        G/G
+## 5:         G/G       C/T        G/G        C/T        G/A        G/A        C/G
+## 6:         A/G       T/T        G/G        T/T        A/A        A/A        G/G
+##    rs62470698 rs12706005 rs4483078 rs2396784 rs11973446 rs34590215 rs67314826
+##        <char>     <char>    <char>    <char>     <char>     <char>     <char>
+## 1:        A/G        C/C       T/C       C/A        C/T        T/T        T/T
+## 2:        G/G        C/C       T/C       C/A        T/T        T/T        T/T
+## 3:        G/G        T/C       T/C       C/C        T/T        C/T        T/T
+## 4:        G/G        C/C       C/C       A/A        T/T        T/T        T/T
+## 5:        A/G        C/C       T/C       C/A        C/T        T/T        T/T
+## 6:        G/G        C/C       C/C       A/A        T/T        T/T        T/T
+##    rs149355042 rs77442764 rs117000538 rs139846252 rs62470700 rs2040587
+##         <char>     <char>      <char>      <char>     <char>    <char>
+## 1:         G/G        G/G         C/C         T/T        A/G       A/G
+## 2:         G/G        A/G         C/C         T/T        G/G       A/G
+## 3:         G/G        A/G         C/C         T/T        G/G       A/A
+## 4:         G/G        G/G         C/C         T/T        G/G       G/G
+## 5:         G/G        G/G         C/C         T/T        A/G       A/G
+## 6:         G/G        G/G         C/C         T/T        G/G       G/G
+##    rs555038479 rs200701666 rs201954455 rs72320813 rs202086588 rs150705814
+##         <char>      <char>      <char>     <char>      <char>      <char>
+## 1:         T/A         A/G         C/G        A/A         C/T         G/T
+## 2:         T/A         G/G         G/G        G/A         T/T         G/T
+## 3:         T/T         G/G         G/G        G/A         T/T         G/G
+## 4:         A/A         G/G         G/G        A/A         T/T         T/T
+## 5:         T/A         A/G         C/G        A/A         C/T         G/T
+## 6:         A/A         G/G         G/G        A/A         T/T         T/T
+##    rs78793173 rs2040585 rs2520600 rs10243329 rs74409088 rs62470701 rs77709066
+##        <char>    <char>    <char>     <char>     <char>     <char>     <char>
+## 1:        G/G       A/A       G/A        T/A        G/G        T/G        G/A
+## 2:        A/G       A/A       G/A        T/A        T/G        G/G        A/A
+## 3:        A/G       A/A       G/G        T/A        T/G        G/G        A/A
+## 4:        G/G       A/A       A/A        A/A        G/G        G/G        A/A
+## 5:        G/G       A/A       G/A        T/A        G/G        T/G        G/A
+## 6:        G/G       A/A       A/A        A/A        G/G        G/G        A/A
+##    rs78349811 rs67040948 rs2709494 rs62470702 rs12706006 rs34406212 rs11764445
+##        <char>     <char>    <char>     <char>     <char>     <char>     <char>
+## 1:        G/G        G/A       C/T        G/T        G/A        T/T        T/T
+## 2:        G/G        G/A       C/T        G/T        G/A        A/T        T/T
+## 3:        G/G        G/G       C/C        G/T        G/G        A/T        C/T
+## 4:        G/G        A/A       T/T        T/T        A/A        T/T        T/T
+## 5:        G/G        G/A       C/T        G/T        G/A        T/T        T/T
+## 6:        A/G        A/A       T/T        T/T        A/A        T/T        T/T
+##    rs10487154 rs76861182 rs10953771 rs148101950 rs2520597 rs201655234
+##        <char>     <char>     <char>      <char>    <char>      <char>
+## 1:        T/A        A/G        G/G         C/C       G/A         G/G
+## 2:        A/A        G/G        G/G         C/C       G/A         G/G
+## 3:        A/A        G/G        A/G         C/C       G/G         G/G
+## 4:        A/A        G/G        G/G         C/C       A/A         G/G
+## 5:        T/A        A/G        G/G         C/C       G/A         T/G
+## 6:        A/A        G/G        G/G         C/C       A/A         G/G
+##    rs12113289 rs1978097 rs2157948 rs2520596 rs74649781 rs78615362 rs2709491
+##        <char>    <char>    <char>    <char>     <char>     <char>    <char>
+## 1:        G/A       T/G       A/G       C/T        C/A        T/A       C/T
+## 2:        G/A       T/G       A/G       C/T        C/A        A/A       C/T
+## 3:        G/G       T/T       A/A       C/C        C/C        A/A       C/C
+## 4:        A/A       G/G       G/G       T/T        A/A        A/A       T/T
+## 5:        G/A       T/G       A/G       C/T        C/A        T/A       C/T
+## 6:        A/A       G/G       G/G       T/T        A/A        A/A       T/T
+##    rs58582534 rs998302 rs66861545 rs529687689 rs143562052 rs2709488 rs10487153
+##        <char>   <char>     <char>      <char>      <char>    <char>     <char>
+## 1:        G/A      G/G        T/C         C/C         G/G       C/A        T/C
+## 2:        A/A      G/G        T/C         C/C         G/G       C/A        T/C
+## 3:        A/A      T/G        T/C         C/C         G/G       C/A        T/T
+## 4:        A/A      G/G        C/C         C/C         A/G       A/A        C/C
+## 5:        G/A      G/G        T/C         C/C         A/G       C/A        T/C
+## 6:        A/A      G/G        C/C         C/C         G/G       A/A        C/C
+##    rs2106534 rs2106533 rs75411035 rs78021787 rs201444636 rs148910423 rs80014594
+##       <char>    <char>     <char>     <char>      <char>      <char>     <char>
+## 1:       A/G       A/A        C/C        C/C         A/C         G/G        G/G
+## 2:       A/G       A/A        T/C        T/C         C/C         G/G        G/G
+## 3:       A/A       A/A        T/C        T/C         C/C         G/G        A/G
+## 4:       G/G       A/A        C/C        C/C         C/C         G/G        G/G
+## 5:       A/G       A/A        C/C        C/C         A/C         G/G        G/G
+## 6:       G/G       A/A        C/C        C/C         C/C         G/G        G/G
+##    rs74713104 rs200762729 rs377425523 rs199602509 rs2188559 rs2188558
+##        <char>      <char>      <char>      <char>    <char>    <char>
+## 1:        A/A         C/A         C/A         C/A       T/A       G/A
+## 2:        A/A         C/A         C/A         C/A       T/A       G/A
+## 3:        A/A         A/A         C/A         C/A       T/T       G/A
+## 4:        A/A         A/A         A/A         A/A       A/A       A/A
+## 5:        A/A         C/A         C/A         C/A       T/A       G/A
+## 6:        A/A         A/A         A/A         A/A       A/A       A/A
+##    rs74584150 rs2709481 rs116882210 rs542860208 rs79169263 rs34660437
+##        <char>    <char>      <char>      <char>     <char>     <char>
+## 1:        G/G       A/G         A/A         T/C        T/T        C/C
+## 2:        C/G       A/G         A/A         T/C        C/T        C/C
+## 3:        C/G       A/G         A/A         C/C        C/T        T/C
+## 4:        G/G       G/G         A/A         T/C        T/T        C/C
+## 5:        G/G       A/G         A/A         T/C        T/T        C/C
+## 6:        G/G       G/G         A/A         T/T        T/T        C/C
+##    rs66486129 rs2520590 rs561449252 rs2709480 rs78246478 rs2520589 rs80273705
+##        <char>    <char>      <char>    <char>     <char>    <char>     <char>
+## 1:        T/A       T/G         T/G       T/C        G/G       C/A        T/T
+## 2:        T/A       T/G         G/G       T/C        A/G       C/A        T/T
+## 3:        T/A       T/T         G/G       T/T        A/G       C/C        A/T
+## 4:        A/A       G/G         G/G       C/C        G/G       A/A        T/T
+## 5:        T/A       T/G         G/G       C/C        G/G       A/A        T/T
+## 6:        A/A       G/G         G/G       C/C        G/G       A/A        T/T
+##    rs76748646 rs960371 rs77815229 rs140931392 rs117405658 rs35692349 rs11272373
+##        <char>   <char>     <char>      <char>      <char>     <char>     <char>
+## 1:        G/G      A/T        G/G         A/A         A/A        C/C        C/T
+## 2:        A/G      A/T        A/G         A/A         A/A        C/C        C/T
+## 3:        A/G      A/A        A/G         A/A         A/A        C/C        C/T
+## 4:        G/G      T/T        G/G         A/A         A/A        C/C        T/T
+## 5:        G/G      T/T        G/G         A/A         A/A        C/C        T/T
+## 6:        G/G      T/T        G/G         A/A         A/A        C/C        T/T
+##    rs34953491 rs2520587 rs2520585 rs2520584 rs2709478
+##        <char>    <char>    <char>    <char>    <char>
+## 1:        G/G       C/G       C/A       C/T       G/G
+## 2:        G/G       C/G       C/A       T/T       A/G
+## 3:        T/G       C/C       C/A       T/T       A/A
+## 4:        G/G       G/G       A/A       T/T       G/G
+## 5:        G/G       G/G       A/A       T/T       G/G
+## 6:        G/G       G/G       A/A       T/T       G/G
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{count\_allele }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(genotype, allele) \{}
+\NormalTok{  alleles }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(genotype, }\StringTok{"/"}\NormalTok{)}
+  \FunctionTok{sapply}\NormalTok{(alleles, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sum}\NormalTok{(x }\SpecialCharTok{==}\NormalTok{ allele))}
+\NormalTok{\}}
+
+\NormalTok{geno\_coded }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =} \FunctionTok{nrow}\NormalTok{(geno), }\AttributeTok{ncol =} \FunctionTok{ncol}\NormalTok{(geno))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(geno)) \{}
+\NormalTok{  geno\_coded[, i] }\OtherTok{\textless{}{-}} \FunctionTok{count\_allele}\NormalTok{(geno[[i]], bim}\SpecialCharTok{$}\NormalTok{a1[i])}
+\NormalTok{\}}
+\FunctionTok{colnames}\NormalTok{(geno\_coded) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(geno)}
+
+\FunctionTok{head}\NormalTok{(geno\_coded)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      rs34684677 rs1839115 rs4727804 rs4727805 rs200888633 rs12534908 rs12533049
+## [1,]          1         1         1         1           1          1          1
+## [2,]          0         0         0         0           1          0          0
+## [3,]          0         0         0         0           1          0          0
+## [4,]          0         0         0         0           2          0          0
+## [5,]          0         0         0         0           2          0          0
+## [6,]          2         2         2         1           0          2          2
+##      rs77861356 rs6945561 rs2894715 rs6963767 rs71149763 rs10272269 rs1448345
+## [1,]          0         1         1         1          1          0         1
+## [2,]          0         0         1         0          0          1         0
+## [3,]          0         0         1         0          0          1         0
+## [4,]          0         0         2         0          0          0         0
+## [5,]          0         0         2         0          0          0         0
+## [6,]          0         2         0         2          2          0         2
+##      rs12673017 rs1530680 rs10156206 rs74448586 rs376810783 rs78438375
+## [1,]          0         1          0          1           1          0
+## [2,]          1         0          1          1           0          0
+## [3,]          1         0          1          1           0          0
+## [4,]          0         0          0          2           0          0
+## [5,]          0         0          0          2           0          0
+## [6,]          0         2          0          0           0          0
+##      rs138986595 rs78087153 rs17137252 rs58903386 rs7784074 rs6970464 rs6950442
+## [1,]           0          0          1          0         0         1         1
+## [2,]           0          0          0          1         1         0         0
+## [3,]           0          0          0          1         1         0         0
+## [4,]           0          0          0          0         0         0         0
+## [5,]           0          0          0          0         0         0         0
+## [6,]           0          0          2          0         0         2         2
+##      rs145302567 rs141580498 rs147031242 rs72603583 rs17137259 rs139762779
+## [1,]           0           0           0          0          0           0
+## [2,]           0           0           0          1          0           0
+## [3,]           0           0           0          1          0           0
+## [4,]           1           0           0          0          1           0
+## [5,]           1           0           0          0          0           0
+## [6,]           0           0           0          0          0           0
+##      rs141591706 rs117262014 rs11330904 rs12705991 rs144519128 rs143584563
+## [1,]           1           1          1          0           1           0
+## [2,]           1           1          0          0           0           0
+## [3,]           1           0          0          0           0           0
+## [4,]           2           2          0          0           0           0
+## [5,]           2           2          0          0           0           0
+## [6,]           0           0          1          1           1           0
+##      rs4730646 rs1448346 rs149644712 rs555773298 rs574814055 rs76959153
+## [1,]         1         1           0           0           0          1
+## [2,]         1         1           1           0           0          1
+## [3,]         1         1           0           0           0          1
+## [4,]         2         2           0           0           0          2
+## [5,]         2         2           0           0           0          2
+## [6,]         0         0           0           0           0          0
+##      rs79286952 rs17137262 rs147508676 rs34141730 rs71573110 rs12667130
+## [1,]          1          1           0          1          0          1
+## [2,]          1          1           0          1          0          1
+## [3,]          1          1           0          1          0          1
+## [4,]          2          2           0          2          0          2
+## [5,]          2          2           0          2          0          2
+## [6,]          0          0           0          0          0          0
+##      rs17137266 rs77946367 rs9649372 rs77911776 rs17504461 rs141644709
+## [1,]          1          1         1          1          1           0
+## [2,]          1          1         1          1          0           0
+## [3,]          1          1         1          1          0           0
+## [4,]          2          2         2          2          0           0
+## [5,]          2          2         2          2          0           0
+## [6,]          0          0         0          0          1           0
+##      rs12705992 rs80172389 rs76173384 rs1448349 rs144039377 rs4366023
+## [1,]          1          1          0         0           0         1
+## [2,]          1          0          1         1           0         1
+## [3,]          1          0          0         1           0         1
+## [4,]          2          0          0         0           0         0
+## [5,]          2          0          0         0           0         0
+## [6,]          0          1          0         0           0         1
+##      rs536518417 rs78877522 rs74643998 rs35981094 rs117176345 rs1034591
+## [1,]           0          0          0          0           0         1
+## [2,]           0          0          0          1           0         1
+## [3,]           0          0          0          1           0         1
+## [4,]           0          0          0          0           0         0
+## [5,]           0          0          0          0           0         0
+## [6,]           0          0          0          0           0         1
+##      rs150261779 rs10232016 rs35087321 rs35208271 rs35598602 rs34858904
+## [1,]           0          0          1          0          0          1
+## [2,]           0          1          1          0          0          1
+## [3,]           0          1          1          0          0          1
+## [4,]           0          0          2          1          0          0
+## [5,]           0          0          2          0          0          0
+## [6,]           0          0          1          0          0          1
+##      rs141310579 rs78868971 rs138859781 rs56040249 rs11505925 rs76381941
+## [1,]           0          0           0          0          0          0
+## [2,]           0          0           1          0          1          0
+## [3,]           0          0           0          0          1          0
+## [4,]           0          0           0          0          0          0
+## [5,]           0          0           0          0          0          0
+## [6,]           0          0           0          1          0          0
+##      rs77539750 rs1011449 rs12533895 rs71573111 rs182139959 rs117592784
+## [1,]          0         0          0          0           0           0
+## [2,]          0         1          1          0           0           0
+## [3,]          0         1          1          0           0           0
+## [4,]          0         0          0          0           0           0
+## [5,]          0         0          0          0           0           0
+## [6,]          0         0          0          1           0           1
+##      rs112228732 rs143676045 rs145956158 rs7455681 rs139002079 rs78363329
+## [1,]           1           0           0         0           0          0
+## [2,]           0           0           1         1           0          0
+## [3,]           0           0           1         1           0          0
+## [4,]           0           0           0         0           0          0
+## [5,]           0           0           0         0           0          0
+## [6,]           1           0           0         0           0          0
+##      rs2396769 rs12673172 rs1971627 rs148002613 rs17137306 rs79375112
+## [1,]         0          0         0           0          0          1
+## [2,]         1          0         1           0          0          0
+## [3,]         1          0         1           0          0          0
+## [4,]         0          0         0           0          0          0
+## [5,]         0          0         0           0          0          0
+## [6,]         0          0         0           0          1          1
+##      rs74898267 rs12671204 rs10607552 rs144706654 rs74301870 rs79949737
+## [1,]          0          1          0           0          0          0
+## [2,]          0          0          0           0          1          1
+## [3,]          0          1          0           0          0          1
+## [4,]          0          0          0           0          0          0
+## [5,]          0          1          0           0          0          0
+## [6,]          1          1          1           0          0          0
+##      rs140886122 rs75865664 rs117355976 rs35879947 rs9641524 rs76800596
+## [1,]           0          1           0          0         0          0
+## [2,]           0          0           0          0         1          0
+## [3,]           1          1           0          0         0          0
+## [4,]           0          0           0          0         0          0
+## [5,]           0          1           0          0         0          0
+## [6,]           0          1           1          0         0          0
+##      rs57503673 rs5886733 rs74934890 rs139966479 rs34155524 rs5886734
+## [1,]          1         0          0           0          1         0
+## [2,]          0         0          1           0          1         1
+## [3,]          1         0          0           0          1         1
+## [4,]          2         0          0           0          1         0
+## [5,]          1         0          0           0          1         0
+## [6,]          0         1          0           0          0         1
+##      rs77668776 rs138800670 rs12539958 rs75070797 rs188177825 rs6466499
+## [1,]          0           0          0          1           0         1
+## [2,]          0           0          0          1           0         0
+## [3,]          0           0          0          1           0         1
+## [4,]          0           0          0          2           0         0
+## [5,]          0           0          0          1           0         1
+## [6,]          0           0          0          0           0         1
+##      rs369288624 rs2188308 rs142272452 rs75514476 rs71573116 rs2188307
+## [1,]           0         0           0          0          1         1
+## [2,]           0         0           0          0          1         1
+## [3,]           0         0           0          0          1         1
+## [4,]           0         0           0          0          2         0
+## [5,]           0         0           0          0          1         1
+## [6,]           0         1           0          1          1         1
+##      rs144868038 rs74301871 rs74784761 rs75742517 rs77332840 rs78066947
+## [1,]           0          0          0          0          0          0
+## [2,]           0          1          1          1          1          0
+## [3,]           0          0          0          0          0          0
+## [4,]           0          0          0          0          0          0
+## [5,]           0          0          0          0          0          0
+## [6,]           0          0          0          0          0          0
+##      rs139477889 rs117767988 rs2188306 rs4730650 rs2894718 rs61048929
+## [1,]           0           0         0         0         1          0
+## [2,]           0           0         1         1         1          1
+## [3,]           0           0         0         0         1          0
+## [4,]           0           0         0         0         2          0
+## [5,]           0           0         0         0         1          0
+## [6,]           0           0         0         0         0          0
+##      rs72391551 rs200621424 rs113866049 rs11287035 rs80353484 rs12667929
+## [1,]          1           0           0          0          1          1
+## [2,]          0           1           1          1          0          0
+## [3,]          1           0           0          0          1          1
+## [4,]          0           0           0          0          1          0
+## [5,]          1           0           0          0          1          1
+## [6,]          1           0           0          0          0          1
+##      rs145787177 rs77927448 rs150620895 rs78893462 rs77455231 rs4265116
+## [1,]           0          0           0          0          0         1
+## [2,]           0          1           1          1          1         0
+## [3,]           0          0           0          0          0         1
+## [4,]           0          0           0          0          0         0
+## [5,]           0          0           0          0          0         1
+## [6,]           0          0           0          0          0         1
+##      rs2040553 rs55764474 rs60603074 rs117053980 rs73446320 rs113615161
+## [1,]         0          0          0           0          0           1
+## [2,]         1          1          1           1          1           0
+## [3,]         0          0          0           0          0           1
+## [4,]         0          0          0           0          0           0
+## [5,]         0          0          0           0          0           1
+## [6,]         0          0          0           0          0           1
+##      rs375859863 rs145422342 rs112901151 rs77401526 rs142761489 rs75193904
+## [1,]           0           0           0          0           0          0
+## [2,]           0           1           1          1           1          1
+## [3,]           0           0           0          0           0          0
+## [4,]           0           0           0          0           0          0
+## [5,]           0           0           0          0           0          0
+## [6,]           0           0           0          0           0          0
+##      rs76422304 rs74657679 rs66481522 rs73719515 rs80106024 rs73448342
+## [1,]          0          0          0          0          0          0
+## [2,]          1          1          0          1          1          1
+## [3,]          0          0          0          0          0          0
+## [4,]          0          0          0          0          0          0
+## [5,]          0          0          0          0          0          0
+## [6,]          0          0          0          0          0          0
+##      rs75839279 rs116924248 rs79772160 rs112592323 rs2396774 rs557780941
+## [1,]          1           0          0           0         0           0
+## [2,]          1           0          1           1         1           0
+## [3,]          1           0          0           0         0           0
+## [4,]          2           0          0           0         0           0
+## [5,]          1           0          0           0         0           0
+## [6,]          0           0          0           0         0           0
+##      rs72499540 rs549252586 rs73448358 rs7800333 rs59254308 rs148835074
+## [1,]          0           0          0         0          0           0
+## [2,]          1           0          1         1          1           0
+## [3,]          0           0          0         0          0           0
+## [4,]          0           0          0         0          0           0
+## [5,]          0           0          0         0          0           0
+## [6,]          0           0          0         0          0           0
+##      rs57022614 rs150859655 rs4730654 rs148297535 rs111494921 rs12375171
+## [1,]          0           0         0           0           0          0
+## [2,]          1           1         1           1           1          1
+## [3,]          0           0         0           0           0          0
+## [4,]          0           0         0           0           0          0
+## [5,]          0           0         0           0           0          0
+## [6,]          0           0         0           0           0          0
+##      rs13205296 rs2396775 rs111812081 rs531288348 rs75267278 rs73432910
+## [1,]          0         0           0           0          0          0
+## [2,]          1         1           0           0          1          1
+## [3,]          0         0           0           0          0          0
+## [4,]          0         0           0           0          0          0
+## [5,]          0         0           0           0          0          0
+## [6,]          0         0           0           0          0          0
+##      rs73432912 rs73432914 rs11406061 rs145853442 rs11536575 rs12539321
+## [1,]          0          0          0           0          0          1
+## [2,]          1          1          1           1          0          1
+## [3,]          0          0          0           0          0          1
+## [4,]          0          0          0           0          0          0
+## [5,]          0          0          0           0          0          1
+## [6,]          0          0          0           0          0          1
+##      rs143760754 rs73432916 rs58931421 rs78220205 rs73432919 rs2188311
+## [1,]           0          0          1          0          0         1
+## [2,]           0          1          0          1          1         1
+## [3,]           0          0          1          0          0         1
+## [4,]           0          0          0          0          0         0
+## [5,]           0          0          1          0          0         1
+## [6,]           0          0          1          0          0         1
+##      rs73438869 rs56862672 rs78564144 rs2188309 rs117283426 rs79656349
+## [1,]          0          1          0         0           0          1
+## [2,]          1          0          1         1           1          0
+## [3,]          0          1          0         0           0          1
+## [4,]          0          0          0         0           0          0
+## [5,]          0          1          0         0           0          1
+## [6,]          0          1          0         0           0          1
+##      rs13235634 rs77202981 rs78799637 rs76779284 rs12673776 rs7796316
+## [1,]          0          0          0          0          1         0
+## [2,]          0          1          1          1          0         1
+## [3,]          0          0          0          0          1         0
+## [4,]          0          0          0          0          0         0
+## [5,]          0          0          0          0          1         0
+## [6,]          0          0          0          0          1         0
+##      rs61183426 rs59694403 rs146817390 rs7802139 rs12154654 rs73438889
+## [1,]          0          1           0         0          0          0
+## [2,]          1          0           0         1          1          1
+## [3,]          0          1           0         0          0          0
+## [4,]          0          0           0         0          0          0
+## [5,]          0          0           0         0          0          0
+## [6,]          0          0           0         0          0          0
+##      rs192912699 rs74609837 rs182149318 rs184954666 rs79313725 rs75030175
+## [1,]           0          0           0           0          0          0
+## [2,]           1          1           1           1          1          0
+## [3,]           0          0           0           0          0          0
+## [4,]           0          0           0           0          0          0
+## [5,]           0          0           0           0          0          0
+## [6,]           0          0           0           0          0          0
+##      rs79259803 rs4730656 rs116913578 rs138857485 rs10586948 rs79326021
+## [1,]          0         0           1           0          0          1
+## [2,]          1         0           0           0          1          0
+## [3,]          0         0           0           1          0          0
+## [4,]          0         0           1           0          0          0
+## [5,]          0         0           1           0          0          0
+## [6,]          0         0           0           0          0          1
+##      rs146288718 rs79937071 rs117688505 rs77678192 rs13241812 rs61499730
+## [1,]           1          1           0          0          0          1
+## [2,]           0          0           1          1          1          0
+## [3,]           0          1           0          0          0          1
+## [4,]           1          0           0          0          0          0
+## [5,]           1          1           0          0          0          1
+## [6,]           0          1           0          0          0          1
+##      rs4335064 rs140347734 rs137988343 rs12706002 rs543991930 rs118038629
+## [1,]         1           0           0          1           0           0
+## [2,]         1           0           0          1           1           1
+## [3,]         1           0           0          1           0           0
+## [4,]         0           0           0          2           0           0
+## [5,]         1           0           0          1           0           0
+## [6,]         1           0           0          1           0           0
+##      rs74301872 rs35262508 rs145349965 rs77336725 rs10686214 rs12706003
+## [1,]          0          0           0          1          0          0
+## [2,]          1          1           0          0          1          1
+## [3,]          0          0           0          0          0          0
+## [4,]          0          0           0          1          0          0
+## [5,]          0          0           0          1          0          0
+## [6,]          0          0           0          1          0          1
+##      rs76859146 rs11366660 rs13225906 rs75047096 rs7777591 rs7777885 rs78967116
+## [1,]          1          0          0          0         0         0          1
+## [2,]          0          1          0          1         1         1          0
+## [3,]          1          0          0          0         0         0          0
+## [4,]          0          0          0          0         0         0          1
+## [5,]          1          0          0          0         0         0          1
+## [6,]          1          1          0          1         1         1          0
+##      rs147973136 rs34608476 rs6974753 rs140299589 rs74394686 rs67332555
+## [1,]           0          1         0           0          0          0
+## [2,]           0          1         0           0          0          1
+## [3,]           0          1         0           1          1          0
+## [4,]           0          1         0           0          0          0
+## [5,]           0          0         0           0          0          0
+## [6,]           0          1         0           0          0          1
+##      rs149045919 rs148379216 rs4730658 rs76593995 rs77552526 rs149351252
+## [1,]           0           0         0          1          0           0
+## [2,]           0           0         1          0          1           0
+## [3,]           1           0         0          0          0           0
+## [4,]           0           0         0          0          0           0
+## [5,]           0           0         0          0          0           0
+## [6,]           0           0         1          0          0           0
+##      rs4595064 rs144655075 rs78869609 rs77541900 rs145600396 rs2290076
+## [1,]         0           0          0          0           0         0
+## [2,]         1           0          1          1           1         0
+## [3,]         0           0          0          0           0         0
+## [4,]         0           0          0          0           0         0
+## [5,]         0           0          0          0           0         0
+## [6,]         1           0          1          1           1         0
+##      rs6947846 rs4609131 rs4551278 rs59273804 rs10259595 rs4557633 rs4313084
+## [1,]         0         0         0          0          0         0         0
+## [2,]         1         1         1          1          1         1         1
+## [3,]         0         0         0          1          0         0         0
+## [4,]         0         0         0          1          0         0         0
+## [5,]         0         0         0          0          0         0         0
+## [6,]         1         1         1          0          1         1         1
+##      rs4727808 rs79376557 rs139496817 rs4344019 rs10247983 rs60125441
+## [1,]         0          0           0         0          0          0
+## [2,]         1          1           0         1          1          1
+## [3,]         0          1           0         0          0          0
+## [4,]         0          1           0         0          0          0
+## [5,]         0          0           0         0          0          0
+## [6,]         1          0           0         1          1          1
+##      rs77532545 rs4727809 rs7800698 rs4730659 rs11447829 rs147130359 rs79754500
+## [1,]          1         0         0         0          1           0          1
+## [2,]          1         0         0         0          1           0          1
+## [3,]          1         0         1         0          0           0          1
+## [4,]          2         0         0         0          1           0          0
+## [5,]          1         0         0         0          1           0          1
+## [6,]          0         0         0         0          1           0          0
+##      rs6949639 rs148925170 rs10262038 rs77262362 rs143850710 rs10953770
+## [1,]         1           0          1          0           1          1
+## [2,]         1           0          1          0           1          1
+## [3,]         2           0          2          0           0          2
+## [4,]         0           0          0          0           2          0
+## [5,]         1           0          1          0           1          1
+## [6,]         0           1          0          1           1          0
+##      rs7802986 rs34588573 rs17137471 rs12668410 rs6974433 rs201148727 rs7811900
+## [1,]         1          0          0          0         1           0         0
+## [2,]         1          0          1          0         1           0         0
+## [3,]         2          1          1          1         2           1         1
+## [4,]         0          0          0          0         0           0         0
+## [5,]         1          0          0          0         1           0         0
+## [6,]         0          0          0          0         0           0         0
+##      rs200462100 rs73443292 rs10273599 rs35807212 rs143796973 rs78426943
+## [1,]           0          1          1          0           0          0
+## [2,]           0          1          1          0           0          0
+## [3,]           1          1          2          1           0          0
+## [4,]           0          0          0          0           0          0
+## [5,]           0          1          1          0           0          0
+## [6,]           0          0          0          0           0          1
+##      rs56343596 rs17137479 rs34430485 rs2594452 rs35316789 rs12538651 rs4730660
+## [1,]          1          0          1         1          0          1         1
+## [2,]          0          0          1         1          0          1         1
+## [3,]          0          0          1         1          1          1         2
+## [4,]          0          0          0         0          0          0         0
+## [5,]          0          0          1         1          0          1         1
+## [6,]          0          0          0         0          0          0         0
+##      rs11760763 rs36014646 rs12671855 rs13235066 rs4517056 rs199864094
+## [1,]          0          0          0          0         1           0
+## [2,]          0          0          0          0         1           0
+## [3,]          1          1          1          1         2           0
+## [4,]          0          0          0          0         0           0
+## [5,]          0          0          0          0         1           0
+## [6,]          0          0          0          0         0           0
+##      rs35825584 rs7799732 rs2594448 rs186369012 rs7776532 rs6466505 rs76672517
+## [1,]          0         1         1           0         1         0          0
+## [2,]          0         1         1           0         1         0          0
+## [3,]          1         2         2           0         2         1          1
+## [4,]          0         0         0           0         0         0          0
+## [5,]          0         1         1           0         1         0          0
+## [6,]          0         0         0           0         0         0          0
+##      rs12111662 rs7786588 rs6971286 rs78927543 rs11314179 rs76512639 rs12111996
+## [1,]          1         0         1          0          0          1          1
+## [2,]          1         0         1          0          0          1          1
+## [3,]          2         0         0          1          2          0          2
+## [4,]          0         0         0          0          0          0          0
+## [5,]          1         0         1          0          0          1          1
+## [6,]          0         0         0          0          1          0          0
+##      rs2594447 rs71526865 rs34264986 rs12537464 rs7784447 rs78545803
+## [1,]         0          0          0          1         0          0
+## [2,]         0          0          0          1         0          0
+## [3,]         1          1          1          0         0          1
+## [4,]         0          0          0          0         0          0
+## [5,]         0          0          0          1         0          0
+## [6,]         0          0          0          0         0          0
+##      rs185045495 rs200398385 rs149794352 rs149781530 rs145717065 rs13236293
+## [1,]           0           1           0           1           1          0
+## [2,]           1           1           0           1           1          0
+## [3,]           0           1           0           2           1          1
+## [4,]           0           0           0           0           0          0
+## [5,]           0           1           0           1           1          0
+## [6,]           0           0           0           0           0          0
+##      rs4730661 rs142091309 rs11768115 rs150213073 rs71243006 rs11772009
+## [1,]         1           0          0           1          1          0
+## [2,]         1           0          0           1          1          0
+## [3,]         2           0          1           2          0          1
+## [4,]         0           0          0           0          0          0
+## [5,]         1           0          0           1          1          0
+## [6,]         0           0          0           0          0          0
+##      rs12668301 rs4727810 rs10240788 rs185839842 rs150955110 rs7792002
+## [1,]          1         0          1           0           0         0
+## [2,]          1         0          1           0           0         0
+## [3,]          0         1          2           0           1         0
+## [4,]          0         0          0           0           0         0
+## [5,]          1         0          1           0           0         0
+## [6,]          0         0          0           0           0         0
+##      rs7791893 rs34136084 rs34808205 rs60307474 rs78040089 rs140579112
+## [1,]         1          0          0          0          1           0
+## [2,]         1          0          0          1          1           0
+## [3,]         1          0          1          1          0           0
+## [4,]         0          0          0          0          0           0
+## [5,]         1          0          0          0          1           0
+## [6,]         0          0          0          0          0           0
+##      rs6957727 rs17137520 rs34394835 rs148048289 rs7780820 rs2709517
+## [1,]         0          0          0           0         1         1
+## [2,]         0          0          0           0         1         1
+## [3,]         0          1          1           0         1         2
+## [4,]         0          0          0           0         0         0
+## [5,]         0          0          0           0         1         1
+## [6,]         0          0          0           0         0         0
+##      rs147364626 rs116872619 rs7792017 rs13231549 rs4380861 rs55672808
+## [1,]           1           0         1          0         1          0
+## [2,]           1           0         1          0         1          0
+## [3,]           2           1         1          0         1          0
+## [4,]           0           0         0          0         0          0
+## [5,]           1           0         1          0         1          0
+## [6,]           0           0         0          0         0          0
+##      rs6978349 rs35318020 rs34475897 rs140007646 rs4730662 rs35353301 rs2594442
+## [1,]         1          0          0           0         0          1         1
+## [2,]         1          0          0           0         0          1         1
+## [3,]         2          1          1           0         1          1         1
+## [4,]         0          0          0           0         0          1         0
+## [5,]         1          0          0           0         0          1         1
+## [6,]         0          0          0           0         0          1         0
+##      rs148735331 rs57943986 rs13227167 rs62470670 rs12667516 rs80031749
+## [1,]           0          1          0          1          0          1
+## [2,]           0          1          0          0          1          1
+## [3,]           0          0          0          0          1          0
+## [4,]           0          1          0          0          0          2
+## [5,]           0          1          0          1          0          1
+## [6,]           0          0          0          0          0          2
+##      rs34241828 rs117561706 rs3761802 rs6961386 rs9649374 rs1055521 rs13237006
+## [1,]          0           0         1         0         1         0          1
+## [2,]          1           0         1         0         0         1          0
+## [3,]          1           0         0         1         0         1          1
+## [4,]          0           0         2         0         0         0          0
+## [5,]          0           0         1         0         1         0          1
+## [6,]          0           0         2         0         0         0          0
+##      rs117617725 rs79069122 rs17137551 rs62470671 rs17585463 rs11766431
+## [1,]           0          0          1          1          0          0
+## [2,]           0          0          1          0          0          0
+## [3,]           0          1          0          0          0          1
+## [4,]           0          0          2          0          0          0
+## [5,]           0          0          1          1          0          0
+## [6,]           0          0          2          0          0          0
+##      rs74677519 rs35906165 rs2709496 rs142145861 rs2709495 rs17585678
+## [1,]          0          0         0           0         0          0
+## [2,]          0          0         1           0         1          0
+## [3,]          0          1         1           0         1          0
+## [4,]          0          0         0           0         0          0
+## [5,]          0          0         0           0         0          0
+## [6,]          1          0         0           0         0          0
+##      rs151173747 rs79613406;rs183236579 rs998903 rs10241046 rs1123065
+## [1,]           0                      1        1          1         0
+## [2,]           0                      1        0          0         0
+## [3,]           0                      0        0          0         0
+## [4,]           0                      2        0          0         0
+## [5,]           0                      1        1          1         0
+## [6,]           0                      2        0          0         0
+##      rs12056022 rs10278037 rs28825161 rs36178652 rs183213418 rs200182649
+## [1,]          1          1          1          0           0           1
+## [2,]          0          0          1          1           0           1
+## [3,]          0          0          2          1           0           0
+## [4,]          0          0          0          0           0           2
+## [5,]          1          1          1          0           0           1
+## [6,]          0          0          0          0           0           2
+##      rs12056075 rs28824858 rs7797761 rs199817026 rs36199045 rs201567353
+## [1,]          1          0         1           1          0           0
+## [2,]          0          0         0           0          1           1
+## [3,]          0          1         0           0          1           1
+## [4,]          0          0         0           0          0           0
+## [5,]          1          0         1           1          0           0
+## [6,]          0          0         0           0          0           0
+##      rs199603766 rs535137388 rs200821538 rs151292661 rs9720047 rs200959580
+## [1,]           1           0           0           1         0           0
+## [2,]           0           0           1           1         0           0
+## [3,]           0           0           1           2         0           1
+## [4,]           0           0           0           0         0           0
+## [5,]           1           0           0           1         0           0
+## [6,]           0           0           0           0         0           0
+##      rs373640697 rs7781334 rs186635742 rs7801012 rs34391438 rs58188714
+## [1,]           1         0           0         1          0          1
+## [2,]           0         1           0         1          0          0
+## [3,]           0         1           0         2          1          0
+## [4,]           0         0           0         0          0          0
+## [5,]           1         0           0         1          0          1
+## [6,]           0         0           1         0          0          0
+##      rs60702091 rs28374236 rs28520784 rs62470698 rs12706005 rs4483078 rs2396784
+## [1,]          1          1          1          1          0         1         1
+## [2,]          0          0          0          0          0         1         1
+## [3,]          0          0          0          0          1         1         2
+## [4,]          0          0          0          0          0         0         0
+## [5,]          1          1          1          1          0         1         1
+## [6,]          0          0          0          0          0         0         0
+##      rs11973446 rs34590215 rs67314826 rs149355042 rs77442764 rs117000538
+## [1,]          1          0          0           0          0           0
+## [2,]          0          0          0           0          1           0
+## [3,]          0          1          0           0          1           0
+## [4,]          0          0          0           0          0           0
+## [5,]          1          0          0           0          0           0
+## [6,]          0          0          0           0          0           0
+##      rs139846252 rs62470700 rs2040587 rs555038479 rs200701666 rs201954455
+## [1,]           0          1         1           1           1           1
+## [2,]           0          0         1           1           0           0
+## [3,]           0          0         2           2           0           0
+## [4,]           0          0         0           0           0           0
+## [5,]           0          1         1           1           1           1
+## [6,]           0          0         0           0           0           0
+##      rs72320813 rs202086588 rs150705814 rs78793173 rs2040585 rs2520600
+## [1,]          0           1           1          0         0         1
+## [2,]          1           0           1          1         0         1
+## [3,]          1           0           2          1         0         2
+## [4,]          0           0           0          0         0         0
+## [5,]          0           1           1          0         0         1
+## [6,]          0           0           0          0         0         0
+##      rs10243329 rs74409088 rs62470701 rs77709066 rs78349811 rs67040948
+## [1,]          1          0          1          1          0          1
+## [2,]          1          1          0          0          0          1
+## [3,]          1          1          0          0          0          2
+## [4,]          0          0          0          0          0          0
+## [5,]          1          0          1          1          0          1
+## [6,]          0          0          0          0          1          0
+##      rs2709494 rs62470702 rs12706006 rs34406212 rs11764445 rs10487154
+## [1,]         1          1          1          0          0          1
+## [2,]         1          1          1          1          0          0
+## [3,]         2          1          2          1          1          0
+## [4,]         0          0          0          0          0          0
+## [5,]         1          1          1          0          0          1
+## [6,]         0          0          0          0          0          0
+##      rs76861182 rs10953771 rs148101950 rs2520597 rs201655234 rs12113289
+## [1,]          1          0           0         1           0          1
+## [2,]          0          0           0         1           0          1
+## [3,]          0          1           0         2           0          2
+## [4,]          0          0           0         0           0          0
+## [5,]          1          0           0         1           1          1
+## [6,]          0          0           0         0           0          0
+##      rs1978097 rs2157948 rs2520596 rs74649781 rs78615362 rs2709491 rs58582534
+## [1,]         1         1         1          1          1         1          1
+## [2,]         1         1         1          1          0         1          0
+## [3,]         2         2         2          2          0         2          0
+## [4,]         0         0         0          0          0         0          0
+## [5,]         1         1         1          1          1         1          1
+## [6,]         0         0         0          0          0         0          0
+##      rs998302 rs66861545 rs529687689 rs143562052 rs2709488 rs10487153 rs2106534
+## [1,]        0          1           0           0         1          1         1
+## [2,]        0          1           0           0         1          1         1
+## [3,]        1          1           0           0         1          2         2
+## [4,]        0          0           0           1         0          0         0
+## [5,]        0          1           0           1         1          1         1
+## [6,]        0          0           0           0         0          0         0
+##      rs2106533 rs75411035 rs78021787 rs201444636 rs148910423 rs80014594
+## [1,]         0          0          0           1           0          0
+## [2,]         0          1          1           0           0          0
+## [3,]         0          1          1           0           0          1
+## [4,]         0          0          0           0           0          0
+## [5,]         0          0          0           1           0          0
+## [6,]         0          0          0           0           0          0
+##      rs74713104 rs200762729 rs377425523 rs199602509 rs2188559 rs2188558
+## [1,]          0           1           1           1         1         1
+## [2,]          0           1           1           1         1         1
+## [3,]          0           0           1           1         2         1
+## [4,]          0           0           0           0         0         0
+## [5,]          0           1           1           1         1         1
+## [6,]          0           0           0           0         0         0
+##      rs74584150 rs2709481 rs116882210 rs542860208 rs79169263 rs34660437
+## [1,]          0         1           0           1          0          0
+## [2,]          1         1           0           1          1          0
+## [3,]          1         1           0           0          1          1
+## [4,]          0         0           0           1          0          0
+## [5,]          0         1           0           1          0          0
+## [6,]          0         0           0           2          0          0
+##      rs66486129 rs2520590 rs561449252 rs2709480 rs78246478 rs2520589 rs80273705
+## [1,]          1         1           1         1          0         1          0
+## [2,]          1         1           0         1          1         1          0
+## [3,]          1         2           0         2          1         2          1
+## [4,]          0         0           0         0          0         0          0
+## [5,]          1         1           0         0          0         0          0
+## [6,]          0         0           0         0          0         0          0
+##      rs76748646 rs960371 rs77815229 rs140931392 rs117405658 rs35692349
+## [1,]          0        1          0           0           0          0
+## [2,]          1        1          1           0           0          0
+## [3,]          1        2          1           0           0          0
+## [4,]          0        0          0           0           0          0
+## [5,]          0        0          0           0           0          0
+## [6,]          0        0          0           0           0          0
+##      rs11272373 rs34953491 rs2520587 rs2520585 rs2520584 rs2709478
+## [1,]          1          0         1         1         1         0
+## [2,]          1          0         1         1         0         1
+## [3,]          1          1         2         1         0         2
+## [4,]          0          0         0         0         0         0
+## [5,]          0          0         0         0         0         0
+## [6,]          0          0         0         0         0         0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{counts }\OtherTok{\textless{}{-}} \FunctionTok{MakeCounts}\NormalTok{(geno\_coded, bim}\SpecialCharTok{$}\NormalTok{a1, bim}\SpecialCharTok{$}\NormalTok{a2)}
+
+\NormalTok{counts }\OtherTok{\textless{}{-}}\NormalTok{ counts[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
+
+\NormalTok{p\_values }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(counts, }\DecValTok{1}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  result }\OtherTok{\textless{}{-}} \FunctionTok{HWChisq}\NormalTok{(x, }\AttributeTok{cc =} \DecValTok{0}\NormalTok{, }\AttributeTok{verbose =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{  result}\SpecialCharTok{$}\NormalTok{pval}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+## Warning in HWChisq(x, cc = 0, verbose = FALSE): Expected counts below 5:
+## chi-square approximation may be incorrect
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_significant }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(p\_values }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{pct\_significant }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(p\_values }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Significant SNPs:"}\NormalTok{, n\_significant, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Significant SNPs: 33
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Percentage:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(pct\_significant, }\DecValTok{2}\NormalTok{), }\StringTok{"\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Percentage: 6.08 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Expected by chance:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FloatTok{0.05} \SpecialCharTok{*} \FunctionTok{length}\NormalTok{(p\_values), }\DecValTok{0}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Expected by chance: 27
+\end{verbatim}
+
+\subsection{Results}\label{results}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Total SNPs} & 543 \\
+\textbf{Significant SNPs (p \textless{} 0.05)} & 33 \\
+\textbf{Percentage significant} & 6.08\% \\
+\textbf{Expected by chance (5\%)} & 27 \\
+\end{longtable}
+}
+
+\subsection{Interpretation}\label{interpretation-1}
+
+We reject Hardy-Weinberg equilibrium for \textbf{33 variants},
+representing \textbf{6.08\%} of the 543 SNPs analysed.
+
+Under the null hypothesis --- that all SNPs are in HWE --- we would
+expect approximately \textbf{5\%} of SNPs (about \textbf{27}) to be
+significant at α = 0.05 by chance alone.
+
+The observed number (33) is \textbf{slightly higher} than expected by
+chance (27), but the difference is small (+6 SNPs, +1.08 percentage
+points). This suggests that most SNPs are consistent with Hardy-Weinberg
+equilibrium, with only a small excess of significant variants that could
+be due to genuine deviations (e.g., genotyping errors, population
+structure, or selection) or simply to random sampling variation.
+
+\textbf{Conclusion:} The observed number of significant SNPs (33) is
+close to what would be expected by chance (27), indicating no strong
+evidence of widespread deviation from Hardy-Weinberg equilibrium in this
+dataset.
+
+The observed number of significant SNPs (33) is close to what would be
+expected by chance (27), indicating no strong evidence of widespread
+deviation from Hardy-Weinberg equilibrium in this dataset.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  (1p) Compute the LD for all the marker pairs in this data base, using
+  the LD function of the packages genetics. Be prepared that this make
+  take a few minutes. Extract the R2 statistics and make an LD heatmap
+  (hint: you can use the command image) using the R2 statistic.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno }\OtherTok{\textless{}{-}}\NormalTok{ foxp2[, }\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(foxp2)]}
+\NormalTok{geno\_list }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(geno, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{genotype}\NormalTok{(x, }\AttributeTok{sep =} \StringTok{"/"}\NormalTok{))}
+
+\NormalTok{n\_snps }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(geno\_list)}
+\CommentTok{\#r2\_matrix \textless{}{-} matrix(NA, nrow = n\_snps, ncol = n\_snps)}
+\CommentTok{\#results \textless{}{-} lapply(1:(n\_snps {-} 1), function(i) \{}
+\CommentTok{\#  sapply((i + 1):n\_snps, function(j) \{}
+\CommentTok{\#    LD(geno\_list[[i]], geno\_list[[j]])$\textasciigrave{}R\^{}2\textasciigrave{}}
+\CommentTok{\#  \})}
+\CommentTok{\#\})}
+
+\CommentTok{\#saveRDS(results, "results\_ld.rds")}
+\CommentTok{\#saveRDS(r2\_matrix, "r2\_matrix.rds")}
+\NormalTok{r2\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"\textasciitilde{}/Documents/GitHub/sge{-}exercises/pract3/r2\_matrix.rds"}\NormalTok{)}
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"\textasciitilde{}/Documents/GitHub/sge{-}exercises/pract3/results\_ld.rds"}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(n\_snps }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) \{}
+\NormalTok{  idx }\OtherTok{\textless{}{-}}\NormalTok{ (i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_snps}
+\NormalTok{  r2\_matrix[i, idx] }\OtherTok{\textless{}{-}}\NormalTok{ results[[i]]}
+\NormalTok{  r2\_matrix[idx, i] }\OtherTok{\textless{}{-}}\NormalTok{ results[[i]]}
+\NormalTok{\}}
+\FunctionTok{diag}\NormalTok{(r2\_matrix) }\OtherTok{\textless{}{-}} \DecValTok{1}
+\FunctionTok{rownames}\NormalTok{(r2\_matrix) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(geno)}
+\FunctionTok{colnames}\NormalTok{(r2\_matrix) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(geno)}
+
+\NormalTok{r2\_values }\OtherTok{\textless{}{-}}\NormalTok{ r2\_matrix[}\FunctionTok{upper.tri}\NormalTok{(r2\_matrix)]}
+\FunctionTok{summary}\NormalTok{(r2\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.000000 0.004386 0.019533 0.097694 0.064301 0.999653
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{palette }\OtherTok{\textless{}{-}} \FunctionTok{colorRampPalette}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"white"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{, }\StringTok{"red"}\NormalTok{))(}\DecValTok{100}\NormalTok{)}
+\FunctionTok{image}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_snps, }\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_snps, r2\_matrix,}
+      \AttributeTok{col =}\NormalTok{ palette,}
+      \AttributeTok{main =} \StringTok{"LD Heatmap (R2)"}\NormalTok{,}
+      \AttributeTok{xlab =} \StringTok{"SNP index"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"SNP index"}\NormalTok{,}
+      \AttributeTok{axes =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, n\_snps, }\AttributeTok{by =} \DecValTok{50}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, n\_snps, }\AttributeTok{by =} \DecValTok{50}\NormalTok{))}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, n\_snps, }\AttributeTok{by =} \DecValTok{50}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, n\_snps, }\AttributeTok{by =} \DecValTok{50}\NormalTok{))}
+\FunctionTok{box}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{pract3_files/figure-latex/unnamed-chunk-6-1.pdf}}
+
+\subsection{Summary of R2 Values}\label{summary-of-r2-values}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Statistic & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Min} & 0.0000 \\
+\textbf{1st Quartile} & 0.0044 \\
+\textbf{Median} & 0.0195 \\
+\textbf{Mean} & 0.0977 \\
+\textbf{3rd Quartile} & 0.0643 \\
+\textbf{Max} & 0.9997 \\
+\end{longtable}
+}
+
+\subsection{Interpretation}\label{interpretation-2}
+
+The distribution of R2 values is highly right-skewed. The median R2 is
+only 0.0195, and 75\% of SNP pairs have R2 below 0.064 --- indicating
+that most pairs are in very low linkage disequilibrium and are
+essentially inherited independently. However, the maximum R2 is 0.9997,
+showing that a small number of SNP pairs are in near-perfect LD.
+
+The mean R2 (0.0977) is much larger than the median (0.0195), confirming
+the right-skewed nature of the distribution --- a few high-LD pairs pull
+the mean upward.
+
+This pattern is expected: SNPs that are physically close on the
+chromosome tend to be in LD, while distant SNPs are independent due to
+recombination. Since the FOXP2 SNPs span a gene region, most pairs are
+far enough apart to be independent, but some are close enough to show
+strong LD.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  (1,5p) Make another heatmap obtained by filtering out all variants
+  with a MAF below 0.35, and redoing the computations to obtain the R2
+  statistics in R. Can you explain any differences observed between the
+  two heatmaps?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{af\_list }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(geno\_list, }\ControlFlowTok{function}\NormalTok{(g) \{}
+\NormalTok{  af }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(g)}\SpecialCharTok{$}\NormalTok{allele.freq}
+  \CommentTok{\# The minor allele frequency is the smaller proportion}
+  \FunctionTok{min}\NormalTok{(af[, }\StringTok{"Proportion"}\NormalTok{])}
+\NormalTok{\})}
+
+\NormalTok{maf }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(af\_list)}
+\FunctionTok{names}\NormalTok{(maf) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(geno)}
+\FunctionTok{summary}\NormalTok{(maf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.01442 0.04808 0.21154 0.20313 0.27644 0.49519
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{keep }\OtherTok{\textless{}{-}}\NormalTok{ maf }\SpecialCharTok{\textgreater{}=} \FloatTok{0.35}
+\FunctionTok{sum}\NormalTok{(keep) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 119
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno\_list\_filt }\OtherTok{\textless{}{-}}\NormalTok{ geno\_list[keep]}
+\NormalTok{n\_snps\_filt }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(geno\_list\_filt)}
+
+
+\NormalTok{r2\_matrix\_filt }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ n\_snps\_filt, }\AttributeTok{ncol =}\NormalTok{ n\_snps\_filt)}
+
+\NormalTok{results\_filt }\OtherTok{\textless{}{-}} \FunctionTok{mclapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{(n\_snps\_filt }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(i) \{}
+  \FunctionTok{sapply}\NormalTok{((i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n\_snps\_filt, }\ControlFlowTok{function}\NormalTok{(j) \{}
+    \FunctionTok{LD}\NormalTok{(geno\_list\_filt[[i]], geno\_list\_filt[[j]])}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{R2}\StringTok{\textasciigrave{}}
+\NormalTok{  \})}
+\NormalTok{\}, }\AttributeTok{mc.cores =} \FunctionTok{detectCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+for (i in 1:(n\_snps\_filt - 1)) \{ r2\_matrix\_filt{[}i, (i +
+1):n\_snps\_filt{]} \textless- results\_filt{[}{[}i{]}{]}
+r2\_matrix\_filt{[}(i + 1):n\_snps\_filt, i{]} \textless-
+results\_filt{[}{[}i{]}{]} \}
+
+diag(r2\_matrix\_filt) \textless- 1
+
+palette \textless- colorRampPalette(c(``white'', ``yellow'',
+``red''))(100)
+
+image(1:n\_snps\_filt, 1:n\_snps\_filt, r2\_matrix\_filt, col = palette,
+main = ``LD Heatmap (R2) --- MAF \textgreater= 0.35'', xlab = ``SNP
+index'', ylab = ``SNP index'', axes = FALSE) axis(1, at = seq(1,
+n\_snps\_filt, by = 5), labels = seq(1, n\_snps\_filt, by = 5)) axis(2,
+at = seq(1, n\_snps\_filt, by = 5), labels = seq(1, n\_snps\_filt, by =
+5)) box()
+
+\subsection{MAF Summary (All SNPs)}\label{maf-summary-all-snps}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Statistic & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Min} & 0.0144 \\
+\textbf{1st Quartile} & 0.0481 \\
+\textbf{Median} & 0.2115 \\
+\textbf{Mean} & 0.2031 \\
+\textbf{3rd Quartile} & 0.2764 \\
+\textbf{Max} & 0.4952 \\
+\end{longtable}
+}
+
+\subsection{Filtering}\label{filtering}
+
+SNPs with \textbf{MAF \textgreater= 0.35} were retained:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Total SNPs} & 543 \\
+\textbf{SNPs after filtering} & \textbf{119} \\
+\textbf{SNPs removed} & 424 (78.1\%) \\
+\end{longtable}
+}
+
+\subsection{Summary}\label{summary}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Question & Answer \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{How many SNPs kept?} & \textbf{119} (of 543) \\
+\textbf{What changed?} & Higher R2, stronger block structure \\
+\textbf{Why?} & Rare variants have low LD and add noise \\
+\end{longtable}
+}
+
+Filtering to MAF \textgreater= 0.35 kept 119 SNPs. The filtered heatmap
+shows stronger LD block structure because common variants are older,
+more informative, and more likely to be in LD with their neighbours ---
+while rare variants contribute mostly noise and low R2 values.
+
+Filtering to MAF over 0.35 kept 119 SNPs. The filtered heatmap shows
+stronger LD block structure because common variants are older, more
+informative, and more likely to be in LD with their neighbours, while
+rare variants contribute mostly noise and low R2 values.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  (1p) Compute a distance matrix with the distance in base pairs between
+  all possible pairs of SNPs, using the basepair position of each SNP
+  given in the .bim file. Make a plot of R's R2 statistics against the
+  distance (expressed as the number of basepairs) between the markers.
+  Comment on your results.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{positions }\OtherTok{\textless{}{-}}\NormalTok{ bim}\SpecialCharTok{$}\NormalTok{bp}
+\NormalTok{dist\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{dist}\NormalTok{(positions))}
+
+\NormalTok{r2\_values }\OtherTok{\textless{}{-}}\NormalTok{ r2\_matrix[}\FunctionTok{upper.tri}\NormalTok{(r2\_matrix)]}
+\NormalTok{dist\_values }\OtherTok{\textless{}{-}}\NormalTok{ dist\_matrix[}\FunctionTok{upper.tri}\NormalTok{(dist\_matrix)]}
+
+
+\NormalTok{valid }\OtherTok{\textless{}{-}} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(r2\_values) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dist\_values)}
+\NormalTok{r2\_values }\OtherTok{\textless{}{-}}\NormalTok{ r2\_values[valid]}
+\NormalTok{dist\_values }\OtherTok{\textless{}{-}}\NormalTok{ dist\_values[valid]}
+
+\FunctionTok{plot}\NormalTok{(dist\_values, r2\_values,}
+     \AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{0.1}\NormalTok{),}
+     \AttributeTok{log =} \StringTok{"x"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"R2 vs Distance between SNPs"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Distance (base pairs, log scale)"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"R2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in xy.coords(x, y, xlabel, ylabel, log): 1 x value <= 0 omitted from
+## logarithmic plot
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bins }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(dist\_values, }\AttributeTok{breaks =} \DecValTok{50}\NormalTok{)}
+\NormalTok{mean\_r2 }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(r2\_values, bins, mean)}
+\NormalTok{midpoints }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dist\_values, bins, median)}
+\FunctionTok{lines}\NormalTok{(midpoints, mean\_r2, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{pract3_files/figure-latex/unnamed-chunk-8-1.pdf}}
+
+\subsection{Comment on R2 vs Distance}\label{comment-on-r2-vs-distance}
+
+The plot shows a clear \textbf{decay of linkage disequilibrium with
+physical distance}, confirming the expected pattern.
+
+At \textbf{short distances} (1--100 bp), R2 values span the full range
+from 0 to 1, with many SNP pairs in strong LD. This is expected ---
+nearby SNPs are rarely separated by recombination.
+
+At \textbf{intermediate distances} (1,000--10,000 bp), the mean R2 (red
+line) drops from approximately 0.25 to 0.1, showing that LD decays as
+recombination breaks down correlations between more distant SNPs.
+
+At \textbf{large distances} (\textasciitilde100,000 bp), R2 values are
+mostly near 0, and the trend line approaches 0. Distant SNPs are
+essentially independent.
+
+However, there is \textbf{substantial scatter} at all distances --- even
+at large distances, some pairs retain high R2. This likely reflects: -
+\textbf{Sampling variation} --- with only 104 individuals, R2 estimates
+are noisy - \textbf{Variable recombination rates} across the region -
+\textbf{Rare variants} contributing noise - \textbf{Haplotype structure}
+--- some SNPs are inherited together despite physical distance
+
+The results are consistent with the expected monotonic decay of LD with
+physical distance.
+
+The plot shows a clear decay of linkage disequilibrium with physical
+distance, confirming the expected pattern: a monotonic decay of LD with
+physical distance.
+
+\section{Haplotype estimation}\label{haplotype-estimation}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  (0,5p) How many individuals and how many SNPs are there in the
+  database? What percentage of the data is missing?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{apoe }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(}\StringTok{"APOE/APOE.dat"}\NormalTok{)}
+
+\NormalTok{n\_individuals }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(apoe)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Individuals:"}\NormalTok{, n\_individuals, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Individuals: 107
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_snps }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(apoe) }\SpecialCharTok{{-}} \DecValTok{1}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"SNPs:"}\NormalTok{, n\_snps, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## SNPs: 162
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno\_apoe }\OtherTok{\textless{}{-}}\NormalTok{ apoe[, }\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(apoe)]}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{unique}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(geno\_apoe)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "C/C" "G/C" "G/G" "A/G" "A/A" "C/G" "T/T" "A/C" "C/T" "T/C" "G/A" "C/A"
+## [13] "G/T" "T/A" "A/T" "T/G"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pct\_missing }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(geno\_apoe)) }\SpecialCharTok{*} \DecValTok{100}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Percentage missing:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(pct\_missing, }\DecValTok{2}\NormalTok{), }\StringTok{"\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Percentage missing: 0 %
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  (0,5p) Assuming that all SNPs are bi-allelic, how many haplotypes can
+  theoretically be found for this data set?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_snps\_apoe }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(apoe) }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{n\_haplotypes }\OtherTok{\textless{}{-}} \DecValTok{2}\SpecialCharTok{\^{}}\NormalTok{n\_snps\_apoe}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of SNPs:"}\NormalTok{, n\_snps\_apoe, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of SNPs: 162
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Possible haplotypes:"}\NormalTok{, n\_haplotypes, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Possible haplotypes: 5.846007e+48
+\end{verbatim}
+
+\subsection{Number of Possible
+Haplotypes}\label{number-of-possible-haplotypes}
+
+Assuming all SNPs are bi-allelic, each SNP has exactly \textbf{two
+alleles}. A haplotype is defined as a combination of one allele from
+each SNP across the region. Therefore, for \(n\) bi-allelic SNPs, the
+number of possible haplotypes is:
+
+\[2^n\]
+
+This follows from the fact that each SNP independently contributes a
+factor of 2 to the total number of combinations. For example, with 2
+SNPs there are \(2^2 = 4\) possible haplotypes; with 3 SNPs there are
+\(2^3 = 8\); and so on.
+
+For this dataset, the number of possible haplotypes is therefore
+\(2^n\), where \(n\) is the number of SNPs in the APOE region.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  (1p) Estimate haplotype frequencies using the haplo.em function that
+  you will find in the haplo.stats package. How many haplotypes do you
+  find? List the estimated probabilities in decreasing order. Which
+  haplotype number is the most common?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{apoe }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(}\StringTok{"APOE/APOE.dat"}\NormalTok{)}
+\NormalTok{bim }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(}\StringTok{"APOE/APOE.bim"}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(bim) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"chr"}\NormalTok{, }\StringTok{"snp"}\NormalTok{, }\StringTok{"cm"}\NormalTok{, }\StringTok{"bp"}\NormalTok{, }\StringTok{"a1"}\NormalTok{, }\StringTok{"a2"}\NormalTok{)}
+\NormalTok{geno }\OtherTok{\textless{}{-}}\NormalTok{ apoe[, }\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(apoe)]}
+
+\NormalTok{convert\_snp }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(genotype, allele1, allele2) \{}
+\NormalTok{  alleles }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(genotype, }\StringTok{"/"}\NormalTok{)}
+\NormalTok{  a1 }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(alleles, }\ControlFlowTok{function}\NormalTok{(x) \{}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(x) }\SpecialCharTok{\textless{}} \DecValTok{2}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (x[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ allele1) }\FunctionTok{return}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (x[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ allele2) }\FunctionTok{return}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  a2 }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(alleles, }\ControlFlowTok{function}\NormalTok{(x) \{}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(x) }\SpecialCharTok{\textless{}} \DecValTok{2}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (x[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ allele1) }\FunctionTok{return}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (x[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ allele2) }\FunctionTok{return}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+\NormalTok{  \})}
+  \FunctionTok{cbind}\NormalTok{(a1, a2)}
+\NormalTok{\}}
+
+\NormalTok{geno\_haplo }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(geno)) \{}
+\NormalTok{  geno\_haplo }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(geno\_haplo, }\FunctionTok{convert\_snp}\NormalTok{(geno[[i]], bim}\SpecialCharTok{$}\NormalTok{a1[i], bim}\SpecialCharTok{$}\NormalTok{a2[i]))}
+\NormalTok{\}}
+
+\NormalTok{hap\_result }\OtherTok{\textless{}{-}} \FunctionTok{haplo.em}\NormalTok{(geno\_haplo)}
+
+
+\NormalTok{freqs }\OtherTok{\textless{}{-}}\NormalTok{ hap\_result}\SpecialCharTok{$}\NormalTok{hap.prob}
+\FunctionTok{names}\NormalTok{(freqs) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(hap\_result}\SpecialCharTok{$}\NormalTok{haplotype)}
+
+\NormalTok{freqs\_sorted }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(freqs, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of haplotypes:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(freqs }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of haplotypes: 34
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(freqs\_sorted, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     34     11      8     32     25     13     28     21     15     17     33 
+## 0.4028 0.1308 0.0716 0.0682 0.0502 0.0455 0.0357 0.0350 0.0225 0.0191 0.0187 
+##     31     23     29      1      4      5      9     10     12     18     22 
+## 0.0158 0.0087 0.0072 0.0047 0.0047 0.0047 0.0047 0.0047 0.0047 0.0047 0.0047 
+##     24     27     19     26      6     16     30      7      3      2     14 
+## 0.0047 0.0047 0.0040 0.0035 0.0034 0.0030 0.0022 0.0019 0.0013 0.0013 0.0009 
+##     20 
+## 0.0000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Most common haplotype:"}\NormalTok{, }\FunctionTok{names}\NormalTok{(freqs\_sorted)[}\DecValTok{1}\NormalTok{], }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Most common haplotype: 34
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Frequency:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(freqs\_sorted[}\DecValTok{1}\NormalTok{], }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Frequency: 0.4028
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  (1p) Remove all genetic variants that have a minor allele frequency
+  below 0.10 from the database, and re-run haplo.em. How does this
+  affect the number of haplotypes? Comment on your results
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno\_list\_apoe }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(geno, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{genotype}\NormalTok{(x, }\AttributeTok{sep =} \StringTok{"/"}\NormalTok{))}
+
+\NormalTok{maf\_apoe }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(geno\_list\_apoe, }\ControlFlowTok{function}\NormalTok{(g) \{}
+\NormalTok{  af }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(g)}\SpecialCharTok{$}\NormalTok{allele.freq}
+  \FunctionTok{min}\NormalTok{(af[, }\StringTok{"Proportion"}\NormalTok{])}
+\NormalTok{\})}
+\FunctionTok{summary}\NormalTok{(maf\_apoe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.004673 0.269860 1.000000 0.776711 1.000000 1.000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{keep\_apoe }\OtherTok{\textless{}{-}}\NormalTok{ maf\_apoe }\SpecialCharTok{\textgreater{}=} \FloatTok{0.10}
+\FunctionTok{sum}\NormalTok{(keep\_apoe)   }\CommentTok{\# how many remain?}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 141
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geno\_filt }\OtherTok{\textless{}{-}}\NormalTok{ geno[, ..keep\_apoe]}
+\NormalTok{bim\_filt }\OtherTok{\textless{}{-}}\NormalTok{ bim[keep\_apoe, ]}
+
+\NormalTok{geno\_haplo\_filt }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(geno\_filt)) \{}
+\NormalTok{  geno\_haplo\_filt }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}
+\NormalTok{    geno\_haplo\_filt,}
+    \FunctionTok{convert\_snp}\NormalTok{(geno\_filt[[i]], bim\_filt}\SpecialCharTok{$}\NormalTok{a1[i], bim\_filt}\SpecialCharTok{$}\NormalTok{a2[i])}
+\NormalTok{  )}
+\NormalTok{\}}
+\FunctionTok{dim}\NormalTok{(geno\_haplo\_filt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 107 282
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hap\_result\_filt }\OtherTok{\textless{}{-}} \FunctionTok{haplo.em}\NormalTok{(geno\_haplo\_filt)}
+
+\NormalTok{freqs\_filt }\OtherTok{\textless{}{-}}\NormalTok{ hap\_result\_filt}\SpecialCharTok{$}\NormalTok{hap.prob}
+\FunctionTok{names}\NormalTok{(freqs\_filt) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(hap\_result\_filt}\SpecialCharTok{$}\NormalTok{haplotype)}
+\NormalTok{freqs\_filt\_sorted }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(freqs\_filt, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of haplotypes:"}\NormalTok{, }\FunctionTok{sum}\NormalTok{(freqs\_filt }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of haplotypes: 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(freqs\_filt\_sorted, }\DecValTok{4}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      9      1      6      4      2      7      3      5      8 
+## 0.6206 0.1308 0.1130 0.0748 0.0319 0.0187 0.0055 0.0047 0.0000
+\end{verbatim}
+
+\subsection{Filtering by MAF and Re-running
+haplo.em}\label{filtering-by-maf-and-re-running-haplo.em}
+
+\subsubsection{MAF Summary (Before
+Filtering)}\label{maf-summary-before-filtering}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Statistic & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Min} & 0.0047 \\
+\textbf{1st Quartile} & 0.2699 \\
+\textbf{Median} & 1.0000 \\
+\textbf{Mean} & 0.7767 \\
+\textbf{3rd Quartile} & 1.0000 \\
+\textbf{Max} & 1.0000 \\
+\end{longtable}
+}
+
+Note: many SNPs have MAF = 1.0000, which indicates they are
+\textbf{monomorphic} in this sample --- only one allele is present.
+These are effectively uninformative for haplotype estimation.
+
+\subsubsection{Filtering}\label{filtering-1}
+
+SNPs with \textbf{MAF \textgreater= 0.10} were retained:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Total SNPs} & {[}original number{]} \\
+\textbf{SNPs after filtering} & \textbf{141} \\
+\textbf{SNPs removed} & {[}original - 141{]} \\
+\end{longtable}
+}
+
+\subsubsection{Number of Haplotypes}\label{number-of-haplotypes}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Dataset & Number of haplotypes \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Before filtering} & {[}X{]} \\
+\textbf{After filtering (MAF \textgreater= 0.10)} & \textbf{9} \\
+\end{longtable}
+}
+
+\subsubsection{Estimated Haplotype Frequencies (Decreasing
+Order)}\label{estimated-haplotype-frequencies-decreasing-order}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Rank & Haplotype & Frequency \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 9 & 0.6206 \\
+2 & 1 & 0.1308 \\
+3 & 6 & 0.1130 \\
+4 & 4 & 0.0748 \\
+5 & 2 & 0.0319 \\
+6 & 7 & 0.0187 \\
+7 & 3 & 0.0055 \\
+8 & 5 & 0.0047 \\
+9 & 8 & 0.0000 \\
+\end{longtable}
+}
+
+\subsubsection{Comment}\label{comment}
+
+Filtering out rare variants (MAF \textless{} 0.10) \textbf{dramatically
+reduces the number of haplotypes} estimated by \texttt{haplo.em} ---
+from \textbf{{[}X{]} to 9}. This is expected: rare SNPs contribute rare
+alleles that define rare haplotypes. When those SNPs are removed, the
+rare haplotypes can no longer be distinguished and disappear from the
+analysis.
+
+The remaining haplotypes are built entirely from \textbf{common
+alleles}. One haplotype (number 9) dominates, accounting for
+\textbf{62\%} of all chromosomes, followed by two moderately common
+haplotypes (1 and 6) at 13\% and 11\%. The remaining six haplotypes are
+rare, together accounting for less than 15\%.
+
+This pattern reflects the \textbf{haplotype block structure} of the APOE
+region: a few common haplotypes capture most of the genetic variation,
+while rare haplotypes contribute little. Filtering by MAF simplifies the
+haplotype structure, reduces the computational burden of
+\texttt{haplo.em}, and improves the statistical power of downstream
+analyses --- since rare haplotypes are often poorly estimated and
+contribute noise.
+
+Filtering out rare variants dramatically reduces the number of
+haplotypes estimated by haplo.em. This is expected because rare SNPs
+contribute rare alleles that define rare haplotypes. When those SNPs are
+removed, the rare haplotypes can no longer be distinguished and
+disappear from the analysis.
+
+\end{document}

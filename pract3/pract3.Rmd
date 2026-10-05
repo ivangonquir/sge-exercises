@@ -1,0 +1,387 @@
+---
+title: "Statistical Genetics - practical 3"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+date: "2026-10-05"
+---
+
+```{r}
+#install.packages(c("data.table", "HardyWeinberg", "genetics", "haplo.stats"))
+
+library(data.table)
+library(genetics)
+library(HardyWeinberg)
+library(parallel)
+# install.packages('haplo.stats', repos = c('https://sinnweja.r-universe.dev', 'https://cloud.r-project.org'))
+library(haplo.stats)
+```
+
+# Linkage Disequilibrium
+1. (0.5p) Load the FOXP2.dat file into the R environment. How many individuals and how many SNPs are there in the database? What percentage of the data is missing?
+
+```{r}
+foxp2 <- fread("FOXP2/FOXP2.dat")
+
+cat("Individuals:", nrow(foxp2), "\n")
+
+
+cat("SNPs:", ncol(foxp2) - 1, "\n")
+
+geno <- foxp2[, 2:ncol(foxp2)]
+
+all_values <- unique(unlist(geno))
+print(all_values)
+
+pct_missing <- mean(is.na(geno)) * 100
+cat("Percentage missing:", round(pct_missing, 2), "%\n")
+```
+
+
+2. (1p) Using the function LD from the genetics package, compute the LD statistic D for the SNPs rs34684677 and rs2894715 of the database. Is there significant association between the alleles of these two SNPs?
+
+```{r}
+snp1 <- foxp2[["rs34684677"]]
+snp2 <- foxp2[["rs2894715"]]
+
+g1 <- genotype(snp1, sep = "/")
+g2 <- genotype(snp2, sep = "/")
+
+ld_result <- LD(g1, g2)
+print(ld_result)
+
+cat("D:", ld_result$D, "\n")
+cat("D':", ld_result$`D'`, "\n")
+cat("r:", ld_result$`r`, "\n")
+cat("R2:", ld_result$`X^2`, "\n")
+cat("p-value:", ld_result$` P-value`, "\n")
+```
+
+
+There is a highly significant association.
+
+3. (1p) Given your previous estimate of D for SNPs rs34684677 and rs2894715, infer the haplotype frequencies. Which haplotype is the most common?
+
+```{r}
+af1 <- summary(g1)$allele.freq
+af2 <- summary(g2)$allele.freq
+print(af1)
+print(af2)
+
+p_a1 <- af1[1, "Proportion"]   
+p_a2 <- af1[2, "Proportion"]  
+p_b1 <- af2[1, "Proportion"]  
+p_b2 <- af2[2, "Proportion"]
+
+D <-  ld_result$D
+
+# Haplotype frequencies
+f_a1b1 <- p_a1 * p_b1 + D
+f_a1b2 <- p_a1 * p_b2 - D
+f_a2b1 <- p_a2 * p_b1 - D
+f_a2b2 <- p_a2 * p_b2 + D
+
+haps <- c(
+  "G T" = f_a1b1,
+  "G G" = f_a1b2,
+  "T T" = f_a2b1,
+  "T G" = f_a2b2
+)
+print(round(haps, 4))
+
+cat("Most common haplotype:", names(which.max(haps)), "\n")
+cat("Frequency:", round(max(haps), 4), "\n")
+```
+
+
+4. (1p) Determine the genotype counts for each SNP. For how many variants do you reject Hardy-Weinberg equilibrium using an ordinary chi-square test without continuity correction? Is this what you would expect by chance? (hint: you can read the .bim in R in order to determine the alleles of each SNP, and use function MakeCounts from the HardyWeinberg package to create a matrix of genotype counts).
+
+```{r}
+bim <- fread("FOXP2/FOXP2.bim")
+
+colnames(bim) <- c("chr", "snp", "cm", "bp", "a1", "a2")
+
+geno <- foxp2[, 2:ncol(foxp2)]
+
+
+count_allele <- function(genotype, allele) {
+  alleles <- strsplit(genotype, "/")
+  sapply(alleles, function(x) sum(x == allele))
+}
+
+geno_coded <- matrix(NA, nrow = nrow(geno), ncol = ncol(geno))
+for (i in 1:ncol(geno)) {
+  geno_coded[, i] <- count_allele(geno[[i]], bim$a1[i])
+}
+colnames(geno_coded) <- colnames(geno)
+
+
+counts <- MakeCounts(geno_coded, bim$a1, bim$a2)
+
+counts <- counts[, 1:3]
+
+p_values <- apply(counts, 1, function(x) {
+  result <- HWChisq(x, cc = 0, verbose = FALSE)
+  result$pval
+})
+
+
+n_significant <- sum(p_values < 0.05, na.rm = TRUE)
+pct_significant <- mean(p_values < 0.05, na.rm = TRUE) * 100
+
+cat("Significant SNPs:", n_significant, "\n")
+cat("Percentage:", round(pct_significant, 2), "%\n")
+cat("Expected by chance:", round(0.05 * length(p_values), 0), "\n")
+```
+
+
+The observed number of significant SNPs (33) is close to what would be expected by chance (27), indicating no strong evidence of widespread deviation from Hardy-Weinberg equilibrium in this dataset.
+
+
+5. (1p) Compute the LD for all the marker pairs in this data base, using the LD function of the packages genetics. Be prepared that this make take a few minutes. Extract the R2 statistics and make an LD heatmap (hint: you can use the command image) using the R2 statistic.
+
+```{r}
+
+geno <- foxp2[, 2:ncol(foxp2)]
+geno_list <- lapply(geno, function(x) genotype(x, sep = "/"))
+
+n_snps <- length(geno_list)
+#r2_matrix <- matrix(NA, nrow = n_snps, ncol = n_snps)
+#results <- lapply(1:(n_snps - 1), function(i) {
+#  sapply((i + 1):n_snps, function(j) {
+#    LD(geno_list[[i]], geno_list[[j]])$`R^2`
+#  })
+#})
+
+#saveRDS(results, "results_ld.rds")
+#saveRDS(r2_matrix, "r2_matrix.rds")
+r2_matrix <- readRDS("~/Documents/GitHub/sge-exercises/pract3/r2_matrix.rds")
+results <- readRDS("~/Documents/GitHub/sge-exercises/pract3/results_ld.rds")
+
+for (i in 1:(n_snps - 1)) {
+  idx <- (i + 1):n_snps
+  r2_matrix[i, idx] <- results[[i]]
+  r2_matrix[idx, i] <- results[[i]]
+}
+diag(r2_matrix) <- 1
+rownames(r2_matrix) <- colnames(geno)
+colnames(r2_matrix) <- colnames(geno)
+
+r2_values <- r2_matrix[upper.tri(r2_matrix)]
+summary(r2_values)
+
+palette <- colorRampPalette(c("white", "yellow", "red"))(100)
+image(1:n_snps, 1:n_snps, r2_matrix,
+      col = palette,
+      main = "LD Heatmap (R2)",
+      xlab = "SNP index", ylab = "SNP index",
+      axes = FALSE)
+axis(1, at = seq(1, n_snps, by = 50), labels = seq(1, n_snps, by = 50))
+axis(2, at = seq(1, n_snps, by = 50), labels = seq(1, n_snps, by = 50))
+box()
+```
+
+This pattern is expected: SNPs that are physically close on the chromosome tend to be in LD, while distant SNPs are independent due to recombination. Since the FOXP2 SNPs span a gene region, most pairs are far enough apart to be independent, but some are close enough to show strong LD.
+
+
+6. (1,5p) Make another heatmap obtained by filtering out all variants with a MAF below 0.35, and redoing the computations to obtain the R2 statistics in R. Can you explain any differences observed between the two heatmaps?
+
+```{r}
+
+af_list <- lapply(geno_list, function(g) {
+  af <- summary(g)$allele.freq
+  # The minor allele frequency is the smaller proportion
+  min(af[, "Proportion"])
+})
+
+maf <- unlist(af_list)
+names(maf) <- colnames(geno)
+summary(maf)
+
+keep <- maf >= 0.35
+sum(keep) 
+geno_list_filt <- geno_list[keep]
+n_snps_filt <- length(geno_list_filt)
+
+
+r2_matrix_filt <- matrix(NA, nrow = n_snps_filt, ncol = n_snps_filt)
+
+results_filt <- mclapply(1:(n_snps_filt - 1), function(i) {
+  sapply((i + 1):n_snps_filt, function(j) {
+    LD(geno_list_filt[[i]], geno_list_filt[[j]])$`R2`
+  })
+}, mc.cores = detectCores() - 1)
+
+
+
+
+```
+
+
+for (i in 1:(n_snps_filt - 1)) {
+  r2_matrix_filt[i, (i + 1):n_snps_filt] <- results_filt[[i]]
+  r2_matrix_filt[(i + 1):n_snps_filt, i] <- results_filt[[i]]
+}
+
+diag(r2_matrix_filt) <- 1
+
+palette <- colorRampPalette(c("white", "yellow", "red"))(100)
+
+image(1:n_snps_filt, 1:n_snps_filt, r2_matrix_filt,
+      col = palette,
+      main = "LD Heatmap (R2) — MAF >= 0.35",
+      xlab = "SNP index", ylab = "SNP index",
+      axes = FALSE)
+axis(1, at = seq(1, n_snps_filt, by = 5), labels = seq(1, n_snps_filt, by = 5))
+axis(2, at = seq(1, n_snps_filt, by = 5), labels = seq(1, n_snps_filt, by = 5))
+box()
+
+
+Filtering to MAF over 0.35 kept 119 SNPs. The filtered heatmap shows stronger LD block structure because common variants are older, more informative, and more likely to be in LD with their neighbours, while rare variants contribute mostly noise and low R2 values.
+
+7. (1p) Compute a distance matrix with the distance in base pairs between all possible pairs of SNPs, using the basepair position of each SNP given in the .bim file. Make a plot of R’s R2 statistics against the distance (expressed as the number of basepairs) between the markers. Comment on your results.
+
+```{r}
+positions <- bim$bp
+dist_matrix <- as.matrix(dist(positions))
+
+r2_values <- r2_matrix[upper.tri(r2_matrix)]
+dist_values <- dist_matrix[upper.tri(dist_matrix)]
+
+
+valid <- !is.na(r2_values) & !is.na(dist_values)
+r2_values <- r2_values[valid]
+dist_values <- dist_values[valid]
+
+plot(dist_values, r2_values,
+     pch = 19, cex = 0.3, col = rgb(0, 0, 1, 0.1),
+     log = "x",
+     main = "R2 vs Distance between SNPs",
+     xlab = "Distance (base pairs, log scale)",
+     ylab = "R2")
+
+
+bins <- cut(dist_values, breaks = 50)
+mean_r2 <- tapply(r2_values, bins, mean)
+midpoints <- tapply(dist_values, bins, median)
+lines(midpoints, mean_r2, col = "red", lwd = 2)
+```
+
+The plot shows a clear decay of linkage disequilibrium with physical distance, confirming the expected pattern: a monotonic decay of LD with physical distance.
+
+# Haplotype estimation 
+
+1. (0,5p) How many individuals and how many SNPs are there in the database? What percentage of the data is missing?
+
+```{r}
+apoe <- fread("APOE/APOE.dat")
+
+n_individuals <- nrow(apoe)
+cat("Individuals:", n_individuals, "\n")
+
+n_snps <- ncol(apoe) - 1
+cat("SNPs:", n_snps, "\n")
+
+geno_apoe <- apoe[, 2:ncol(apoe)]
+print(unique(unlist(geno_apoe)))
+
+pct_missing <- mean(is.na(geno_apoe)) * 100
+cat("Percentage missing:", round(pct_missing, 2), "%\n")
+```
+
+2. (0,5p) Assuming that all SNPs are bi-allelic, how many haplotypes can theoretically be found for this data set?
+
+```{r}
+n_snps_apoe <- ncol(apoe) - 1
+n_haplotypes <- 2^n_snps_apoe
+
+cat("Number of SNPs:", n_snps_apoe, "\n")
+cat("Possible haplotypes:", n_haplotypes, "\n")
+```
+
+
+
+3. (1p) Estimate haplotype frequencies using the haplo.em function that you will find in the haplo.stats package. How many haplotypes do you find? List the estimated probabilities in decreasing order. Which haplotype number is the most common?
+
+```{r}
+apoe <- fread("APOE/APOE.dat")
+bim <- fread("APOE/APOE.bim")
+colnames(bim) <- c("chr", "snp", "cm", "bp", "a1", "a2")
+geno <- apoe[, 2:ncol(apoe)]
+
+convert_snp <- function(genotype, allele1, allele2) {
+  alleles <- strsplit(genotype, "/")
+  a1 <- sapply(alleles, function(x) {
+    if (length(x) < 2) return(NA)
+    if (x[1] == allele1) return(1)
+    if (x[1] == allele2) return(2)
+    return(NA)
+  })
+  a2 <- sapply(alleles, function(x) {
+    if (length(x) < 2) return(NA)
+    if (x[2] == allele1) return(1)
+    if (x[2] == allele2) return(2)
+    return(NA)
+  })
+  cbind(a1, a2)
+}
+
+geno_haplo <- NULL
+for (i in 1:ncol(geno)) {
+  geno_haplo <- cbind(geno_haplo, convert_snp(geno[[i]], bim$a1[i], bim$a2[i]))
+}
+
+hap_result <- haplo.em(geno_haplo)
+
+
+freqs <- hap_result$hap.prob
+names(freqs) <- rownames(hap_result$haplotype)
+
+freqs_sorted <- sort(freqs, decreasing = TRUE)
+
+cat("Number of haplotypes:", sum(freqs > 0), "\n")
+print(round(freqs_sorted, 4))
+cat("Most common haplotype:", names(freqs_sorted)[1], "\n")
+cat("Frequency:", round(freqs_sorted[1], 4), "\n")
+```
+
+4. (1p) Remove all genetic variants that have a minor allele frequency below 0.10 from the database, and re-run haplo.em. How does this affect the number of haplotypes? Comment on your results
+
+```{r}
+geno_list_apoe <- lapply(geno, function(x) genotype(x, sep = "/"))
+
+maf_apoe <- sapply(geno_list_apoe, function(g) {
+  af <- summary(g)$allele.freq
+  min(af[, "Proportion"])
+})
+summary(maf_apoe)
+
+keep_apoe <- maf_apoe >= 0.10
+sum(keep_apoe)   # how many remain?
+
+geno_filt <- geno[, ..keep_apoe]
+bim_filt <- bim[keep_apoe, ]
+
+geno_haplo_filt <- NULL
+for (i in 1:ncol(geno_filt)) {
+  geno_haplo_filt <- cbind(
+    geno_haplo_filt,
+    convert_snp(geno_filt[[i]], bim_filt$a1[i], bim_filt$a2[i])
+  )
+}
+dim(geno_haplo_filt)
+
+hap_result_filt <- haplo.em(geno_haplo_filt)
+
+freqs_filt <- hap_result_filt$hap.prob
+names(freqs_filt) <- rownames(hap_result_filt$haplotype)
+freqs_filt_sorted <- sort(freqs_filt, decreasing = TRUE)
+
+cat("Number of haplotypes:", sum(freqs_filt > 0), "\n")
+print(round(freqs_filt_sorted, 4))
+```
+
+
+Filtering out rare variants dramatically reduces the number of haplotypes estimated by haplo.em. This is expected because rare SNPs contribute rare alleles that define rare haplotypes. When those SNPs are removed, the rare haplotypes can no longer be distinguished and disappear from the analysis.
